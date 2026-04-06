@@ -15,7 +15,7 @@ function Mouse:init()
     self.dy = 0
     
     self.tile_mode = true
-    self.current_name = "tile"
+    self.current_name = TILE_TYPES[1]
     self.current_i = 1
 end
 
