@@ -57,8 +57,12 @@ function Level:reload()
         object.key = k
         local path = "assets/levels/"..self.level_index.."/"..k..".lua"
         if love.filesystem.getInfo(path) then
+            local data = require("assets.levels."..self.level_index.."."..k)
+            if data.locked == true then
+                object.locked = true
+            end
             if object.load_data then
-                object:load_data(require("assets.levels."..self.level_index.."."..k))
+                object:load_data(data)
             end
         end
     end

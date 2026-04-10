@@ -46,7 +46,14 @@ function Selection:init()
 end
 
 function Selection.get_col(self)
-    return Physics.col(self, get_group_names())
+    local found = Physics.col(self, get_group_names())
+    for i = #found, 1, -1 do
+        local object = found[i]
+        if object.locked == true then
+            table.remove(found, i)
+        end
+    end
+    return found
 end
 
 function Selection:draw_selection()
