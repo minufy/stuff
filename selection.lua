@@ -153,7 +153,7 @@ function Selection:update_selected_objects()
         if Input.mb[1].down then
             object.x = object.x-Mouse.dx
             object.y = object.y-Mouse.dy
-        elseif Input.mb[1].up then
+        elseif Input.mb[1].released then
             local grid = TILE_SIZE/2
             local x = RoundS(object.x, grid)
             local y = RoundS(object.y, grid)

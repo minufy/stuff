@@ -50,6 +50,7 @@ function Level:load_level()
 end
 
 function Level:reload()
+    Log(1)
     Game.objects = {}
     Game:add(Tiles, self.level.tiles)
     for k, o in pairs(self.level.objects) do

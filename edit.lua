@@ -97,11 +97,19 @@ function Edit:remove_img_object(key)
 end
 
 function Edit:remove_tile(x, y)
+    if Level.level.tiles[x..","..y] == nil then
+        return
+    end
     Level.level.tiles[x..","..y] = nil
     Level:reload()
 end
 
 function Edit:add_tile(x, y, type)
+    if Level.level.tiles[x..","..y] ~= nil then
+        if Level.level.tiles[x..","..y].type == type then
+            return
+        end
+    end
     Level.level.tiles[x..","..y] = {
         x = x,
         y = y,
