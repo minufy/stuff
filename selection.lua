@@ -1,5 +1,9 @@
 Selection = {}
 
+function Selection:__tostring()
+    return "selection"
+end
+
 local function calc_rect(sx, ex, sy, ey)
     local x, y, w, h
     if sx < ex then

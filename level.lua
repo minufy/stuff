@@ -1,9 +1,17 @@
 Level = {}
 
+local function set_type(Object, type)
+    function Object:__tostring()
+        return type
+    end
+end
+
 local Tiles = require("objects.tiles")
 local Img = require("objects.img")
+set_type(Tiles, "tiles")
+set_type(Img, "img")
 
-function Level:init()
+function Level:init() 
     TILE_IMGS = {}
     for i, type in ipairs(TILE_TYPES) do
         TILE_IMGS[type] = NewImage(type)
@@ -12,6 +20,7 @@ function Level:init()
     OBJECT_TABLE = {}
     for i, type in ipairs(OBJECT_TYPES) do
         OBJECT_TABLE[type] = require("objects."..type)
+        set_type(OBJECT_TABLE[type], type)
     end
 
     IMG_TABLE = {}

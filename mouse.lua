@@ -1,8 +1,10 @@
 Mouse = {}
 
-function Mouse:init()
-    self.group_name = "mouse"
+function Mouse:__tostring()
+    return "mouse"
+end
 
+function Mouse:init()
     self.x = 0
     self.y = 0
     self.w = 1

@@ -74,3 +74,9 @@ end
 function love.displaychanged()
     UpdateTargetFPS()
 end
+
+function SetType(Object, type)
+    function Object:__tostring()
+        return type
+    end
+end
