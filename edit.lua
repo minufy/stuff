@@ -15,8 +15,8 @@ function Edit:update(dt)
     if CONSOLE then
         if Input.toggle_editor.pressed then
             self.editing = not self.editing
+            Level:reload()
             if not self.editing then
-                Level:reload()
                 Camera:set_zoom(1)
             end
         end
