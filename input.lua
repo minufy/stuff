@@ -50,3 +50,18 @@ end
 
 Input.mb = {NewInput(), NewInput(), NewInput()}
 Input.wheel = NewInput()
+
+Input.swap_mode = NewInput({"tab"})
+Input.toggle_editor = NewInput({"`"})
+Input.ctrl = NewInput({"lctrl"})
+Input.save = NewInput({"s"})
+Input.shift = NewInput({"lshift"})
+Input.delete = NewInput({"delete", "x"})
+Input.deselect = NewInput({"escape"})
+Input.undo = NewInput({"z"})
+Input.add_script = NewInput({"backspace"})
+Input.reset_zoom = NewInput({"rshift"})
+Input.next_level = NewInput({"pagedown"})
+Input.prev_level = NewInput({"pageup"})
+Input.cycle = NewInput({"lalt"})
+Input.alt = NewInput({"lalt"})
