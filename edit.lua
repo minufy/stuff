@@ -57,12 +57,15 @@ function Edit:draw_hud()
     Mouse:draw_hud()
 end
 
-function Edit:add_object(x, y, type)
+function Edit:add_object(x, y, type, alt)
     local data = {
         x = x,
         y = y,
         type = type,
     }
+    if alt then
+        data.alt = true
+    end
     Level.level.objects[tostring(data):sub(8)] = data
     Level:reload()
 end

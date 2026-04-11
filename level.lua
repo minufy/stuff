@@ -62,7 +62,7 @@ function Level:reload()
     Game.objects = {}
     Game:add(Tiles, self.level.tiles)
     for k, o in pairs(self.level.objects) do
-        local object = Game:add(OBJECT_TABLE[o.type], o.x, o.y)
+        local object = Game:add(OBJECT_TABLE[o.type], o.x, o.y, o.alt)
         object.key = k
         local path = "assets/levels/"..self.level_index.."/"..k..".lua"
         if love.filesystem.getInfo(path) then
