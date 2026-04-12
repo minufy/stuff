@@ -80,3 +80,15 @@ function SetType(Object, type)
         return type
     end
 end
+
+local charset = "0123456789abcdefghijklmnopqrstuvwxyz"
+
+function ToBase36(n)
+    local result = "0"
+    while n > 0 do
+        local remainder = (n%36)+1
+        result = charset:sub(remainder, remainder)..result
+        n = math.floor(n/36)
+    end
+    return result
+end

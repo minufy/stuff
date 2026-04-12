@@ -103,21 +103,16 @@ function Edit:remove_tile(x, y)
     if Level.level.tiles[x..","..y] == nil then
         return
     end
+    print(1)
     Level.level.tiles[x..","..y] = nil
     Level:reload()
 end
 
 function Edit:add_tile(x, y, type)
-    if Level.level.tiles[x..","..y] ~= nil then
-        if Level.level.tiles[x..","..y].type == type then
-            return
-        end
+    if Level.level.tiles[x..","..y] == type then
+        return
     end
-    Level.level.tiles[x..","..y] = {
-        x = x,
-        y = y,
-        type = type
-    }
+    Level.level.tiles[x..","..y] = type
     Level:reload()
 end
 
