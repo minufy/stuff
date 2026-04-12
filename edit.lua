@@ -103,7 +103,6 @@ function Edit:remove_tile(x, y)
     if Level.level.tiles[x..","..y] == nil then
         return
     end
-    print(1)
     Level.level.tiles[x..","..y] = nil
     Level:reload()
 end
