@@ -59,7 +59,7 @@ function Level:load_level()
 end
 
 function Level:reload()
-    Game.objects = {}
+    Game:reset()
     Game:add(Tiles, self.level.tiles)
     for k, o in pairs(self.level.objects) do
         local object = Game:add(OBJECT_TABLE[o.type], o.x, o.y, o.alt)
