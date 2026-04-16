@@ -11,7 +11,7 @@ local Img = require("objects.img")
 set_type(Tiles, "tiles")
 set_type(Img, "img")
 
-function Level:init()
+function Level:init(level_index)
     TILE_IMGS = {}
     for i, type in ipairs(TILE_TYPES) do
         TILE_IMGS[type] = NewImage(type)
@@ -28,7 +28,7 @@ function Level:init()
         IMG_TABLE[type] = NewImage(type)
     end
 
-    self.level_index = 1
+    self.level_index = level_index or 1
     self.level = {}
     self:load_level()
 end
