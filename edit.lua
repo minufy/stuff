@@ -7,6 +7,7 @@ function Edit:init()
     self.undo = {}
     self.undo_i = 1
     self.remove_scripts = {}
+    self.unlocked = false
     Mouse:init()
     Selection:init()
 end
@@ -24,6 +25,9 @@ function Edit:update(dt)
             if Input.save.pressed then
                 self:save()
             end
+        end
+        if Input.unlock.pressed then
+            self.unlocked = not self.unlocked
         end
     end
     

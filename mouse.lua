@@ -122,6 +122,11 @@ function Mouse:draw_hud()
     y = y+Font:getHeight()
     local keys_str = Selection:get_key_str()
     love.graphics.print(keys_str, 0, y)
+    
+    y = y+Font:getHeight()
+    if Edit.unlocked then
+        love.graphics.print("unlocked", 0, y)
+    end
 end
 
 function Mouse:set()

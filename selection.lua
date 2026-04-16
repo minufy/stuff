@@ -53,7 +53,7 @@ function Selection.get_col(self)
     local found = Physics.col(self, get_group_names())
     for i = #found, 1, -1 do
         local object = found[i]
-        if object.locked == true then
+        if object.locked == true and not Edit.unlocked then
             table.remove(found, i)
         end
     end
