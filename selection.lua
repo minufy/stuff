@@ -154,11 +154,20 @@ end
 
 function Selection:update_selected_objects()
     for i, object in ipairs(self.selected_objects) do
+        local grid = TILE_SIZE/2
+        if Input.space.down then
+            object.w = object.w-Mouse.dx
+            object.h = object.h-Mouse.dy
+        elseif Input.space.released then
+            local w = RoundS(object.w, grid)
+            local h = RoundS(object.h, grid)
+            Edit:set_object_value("w", w, object.key)
+            Edit:set_object_value("h", h, object.key)
+        end
         if Input.mb[1].down then
             object.x = object.x-Mouse.dx
             object.y = object.y-Mouse.dy
         elseif Input.mb[1].released then
-            local grid = TILE_SIZE/2
             local x = RoundS(object.x, grid)
             local y = RoundS(object.y, grid)
             object.x = x
@@ -166,7 +175,8 @@ function Selection:update_selected_objects()
             if object.group_name == "img" then
                 Edit:move_img_object(x, y, object.key)
             else
-                Edit:move_object(x, y, object.key)
+                Edit:set_object_value("x", x, object.key)
+                Edit:set_object_value("y", y, object.key)
             end
         end
         if Input.delete.pressed then

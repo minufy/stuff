@@ -115,9 +115,8 @@ function Edit:add_tile(x, y, type)
     Level:reload()
 end
 
-function Edit:move_object(x, y, key)
-    Level.level.objects[key].x = x
-    Level.level.objects[key].y = y
+function Edit:set_object_value(v, x, k)
+    Level.level.objects[k][v] = x
     Level:reload()
 end
 

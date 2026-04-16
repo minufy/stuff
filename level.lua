@@ -62,18 +62,15 @@ function Level:reload()
     Game:reset()
     Game:add(Tiles, self.level.tiles)
     for k, o in pairs(self.level.objects) do
-        local object = Game:add(OBJECT_TABLE[o.type], o.x, o.y, o.alt)
-        object.key = k
         local path = "assets/levels/"..self.level_index.."/"..k..".lua"
         if love.filesystem.getInfo(path) then
             local data = require("assets.levels."..self.level_index.."."..k)
-            if data.locked == true then
-                object.locked = true
-            end
-            if object.load_data then
-                object:load_data(data)
+            for kk, v in pairs(data) do
+                o[kk] = v
             end
         end
+        local object = Game:add(OBJECT_TABLE[o.type], o)
+        object.key = k
     end
     for k, o in pairs(self.level.img_objects) do
         local object = Game:add(Img, o.x, o.y, o.type)
