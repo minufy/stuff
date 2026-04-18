@@ -61,8 +61,8 @@ function Selection.get_col(self)
 end
 
 function Selection:draw_selection()
-    local active = not Mouse.tile_mode and Input.mb[1].down
-    local active_tile = Mouse.tile_mode and Input.ctrl.down and (Input.mb[1].down or Input.mb[2].down)
+    local active = not Mouse.tile_mode and MB(1, "down")
+    local active_tile = Mouse.tile_mode and Input.ctrl.down and (MB(1, "down") or MB(2, "down"))
     if active or active_tile then
         local color = 1
         if active_tile and self.tile_mouse_i == 2 then
@@ -80,7 +80,7 @@ function Selection:draw_selection()
 end
 
 function Selection:update_selection()
-    if Input.mb[1].pressed then
+    if MB(1, "pressed") then
         local col = self.get_col(Mouse)
         if #col > 0 then
             self.selected_objects = {col[1]}
@@ -88,14 +88,14 @@ function Selection:update_selection()
         end
     end
 
-    if Input.mb[1].down then
+    if MB(1, "down") then
         self.end_x = Mouse.x
         self.end_y = Mouse.y
     end
 
     self.x, self.y, self.w, self.h = calc_rect(self.start_x, self.end_x, self.start_y, self.end_y)
     
-    if Input.mb[1].released then
+    if MB(1, "released") then
         self.selected_objects = self:get_col()
     end
 end
@@ -135,7 +135,7 @@ function Selection:ctrl_select(col)
 end
 
 function Selection:single_selection()
-    if Input.mb[1].pressed then
+    if MB(1, "pressed") then
         local col = self.get_col(Mouse)
         if #col <= 0 then
             self.selected_objects = {}
@@ -164,10 +164,10 @@ function Selection:update_selected_objects()
             Edit:set_object_value("w", w, object.key)
             Edit:set_object_value("h", h, object.key)
         end
-        if Input.mb[1].down then
+        if MB(1, "down") then
             object.x = object.x-Mouse.dx
             object.y = object.y-Mouse.dy
-        elseif Input.mb[1].released then
+        elseif MB(1, "released") then
             local x = RoundS(object.x, grid)
             local y = RoundS(object.y, grid)
             object.x = x
@@ -239,7 +239,7 @@ function Selection:update()
         self:update_cycle()
         return
     end
-    if Input.mb[1].pressed then
+    if MB(1, "pressed") then
         self.start_x = Mouse.x
         self.start_y = Mouse.y
     end
@@ -249,7 +249,7 @@ function Selection:update()
     else
         self:update_selection()
     end
-    if Input.mb[1].released then
+    if MB(1, "released") then
         self.w = 0
         self.h = 0
     end
@@ -282,20 +282,20 @@ end
 
 function Selection:update_tile()
     for i = 1, 2 do
-        if Input.mb[i].pressed then
+        if MB(i, "pressed") then
             self.tile_mouse_i = i
             self.start_x = RoundS(Mouse.x, TILE_SIZE, 0)
             self.start_y = RoundS(Mouse.y, TILE_SIZE, 0)
         end
     
-        if Input.mb[i].down then
+        if MB(i, "down") then
             self.end_x = RoundS(Mouse.x, TILE_SIZE, 0)
             self.end_y = RoundS(Mouse.y, TILE_SIZE, 0)
         end
     
         self.x, self.y, self.w, self.h = calc_rect(self.start_x, self.end_x, self.start_y, self.end_y)
         
-        if Input.mb[i].released then
+        if MB(i, "released") then
             self:fill_tiles()
             self.w = 0
             self.h = 0

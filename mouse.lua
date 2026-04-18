@@ -4,6 +4,10 @@ function Mouse:__tostring()
     return "mouse"
 end
 
+function MB(i, type)
+    return Input.mb[i][type] or Input.mb_emu[i][type]
+end
+
 function Mouse:init()
     self.x = 0
     self.y = 0
@@ -45,7 +49,7 @@ function Mouse:camera_control()
         Camera:set_zoom(1)
     end
 
-    if Input.mb[3].down then
+    if MB(3, "down") then
         Camera:add(self.dx, self.dy)
         Camera:snap_back()
     end
@@ -74,14 +78,14 @@ function Mouse:update(dt)
         if Input.ctrl.down then
             Selection:update_tile()
         else
-            if Input.mb[1].down then
+            if MB(1, "down") then
                 Edit:add_tile(self.tile_x, self.tile_y, self.current_name)
-            elseif Input.mb[2].down then
+            elseif MB(2, "down") then
                 Edit:remove_tile(self.tile_x, self.tile_y)
             end
         end
     else
-        if Input.shift.down and Input.mb[1].pressed then
+        if Input.shift.down and MB(1, "pressed") then
             if IMG_TABLE[self.current_name] == nil then
                 Edit:add_object(self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE, self.current_name, Input.alt.down)
             else
@@ -94,7 +98,7 @@ function Mouse:update(dt)
     self.dx = Res:get_x()
     self.dy = Res:get_y()
     
-    if Input.mb[1].released or Input.mb[2].released or Input.delete.pressed then
+    if MB(1, "released") or MB(2, "released") or Input.delete.pressed then
         Edit:undo_push()
     end
 end
