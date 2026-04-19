@@ -38,16 +38,6 @@ function AABB(a, b)
            b.y < a.y+a.h
 end
 
-function NewImage(name)
-    local path = "assets/imgs/"..name..".png"
-    if love.filesystem.getInfo(path) then
-        return love.graphics.newImage(path)
-    else
-        Log("not found: "..path)
-        return love.graphics.newImage("assets/imgs/error.png")
-    end
-end
-
 function RoundS(x, r, ofs)
     return Round(x, r, ofs)*r
 end

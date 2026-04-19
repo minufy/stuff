@@ -12,20 +12,20 @@ set_type(Tiles, "tiles")
 set_type(Img, "img")
 
 function Level:init(level_index)
-    TILE_IMGS = {}
-    for i, type in ipairs(TILE_TYPES) do
-        TILE_IMGS[type] = NewImage(type)
+    for _, type in ipairs(TILE_TYPES) do
+        NewImage(type, "tile."..type)
     end
-
+    
     OBJECT_TABLE = {}
-    for i, type in ipairs(OBJECT_TYPES) do
+    for _, type in ipairs(OBJECT_TYPES) do
         OBJECT_TABLE[type] = require("objects."..type)
         set_type(OBJECT_TABLE[type], type)
     end
 
-    IMG_TABLE = {}
-    for i, type in ipairs(IMG_TYPES) do
-        IMG_TABLE[type] = NewImage(type)
+    IMG_KEYS = {}
+    for _, type in ipairs(IMG_TYPES) do
+        IMG_KEYS[type] = true
+        NewImage(type, "img."..type)
     end
 
     self.level_index = level_index or 1

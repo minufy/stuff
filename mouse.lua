@@ -86,7 +86,7 @@ function Mouse:update(dt)
         end
     else
         if Input.shift.down and MB(1, "pressed") then
-            if IMG_TABLE[self.current_name] == nil then
+            if IMG_KEYS[self.current_name] == nil then
                 Edit:add_object(self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE, self.current_name, Input.alt.down)
             else
                 Edit:add_img_object(self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE, self.current_name)
@@ -105,7 +105,11 @@ end
 
 function Mouse:draw()
     local x, y = Res:get_x()+Camera.x, Res:get_y()+Camera.y
-    love.graphics.circle("fill", x, y, 2)
+    if self.tile_mode then
+        love.graphics.rectangle("fill", x-2, y-2, 2, 2)
+    else
+        love.graphics.circle("fill", x, y, 2)
+    end
     love.graphics.setFont(Font)
     love.graphics.print(self.current_name, x+10, y+10)
     
