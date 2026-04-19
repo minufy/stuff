@@ -10,7 +10,7 @@ function NewInput(keys)
     }
 end
 
-local function updateAction(action, isDown)
+local function update_action(action, isDown)
     local down = isDown()
     local up = not down
     action.pressed = down and not action.down
@@ -22,7 +22,7 @@ end
 function UpdateInputs()
     for _, action in pairs(Input) do
         if action.keys then
-            updateAction(action, function()
+            update_action(action, function()
                 for _, key in ipairs(action.keys) do
                     if love.keyboard.isDown(key) then return true end
                 end
@@ -32,7 +32,7 @@ function UpdateInputs()
     end
 
     for i = 1, 3 do
-        updateAction(Input.mb[i], function()
+        update_action(Input.mb[i], function()
             return love.mouse.isDown(i)
         end)
     end
