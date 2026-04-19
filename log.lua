@@ -1,4 +1,5 @@
 Logs = {}
+PrevLog = ""
 LogTime = 240
 local MAX_LOGS = 100
 
@@ -10,8 +11,11 @@ function Log(...)
     if #Logs >= MAX_LOGS then
         table.remove(Logs, 1)
     end
-    table.insert(Logs, {text=text, timer=0})
-    print(text)
+    if text ~= PrevLog then
+        table.insert(Logs, {text=text, timer=0})
+        print(text)
+        PrevLog = text
+    end
 end
 
 function DrawLog()
