@@ -194,15 +194,10 @@ function Selection:update_selected_objects()
     end
 end
 
-function Selection:add_script()
-    for i, o in ipairs(self.selected_objects) do
-        local path = "assets/levels/"..Level.level_index.."/"..o.key..".lua"
-        local file = io.open(path, "w")
-        if file then
-            file:close()
-        end
-        Log("script added for "..o.key)
-    end
+function Selection:copy_key()
+    local key = self.selected_objects[1].key
+    love.system.setClipboardText(key)
+    Log(key.." copied to clipboard")
 end
 
 function Selection:get_key_str()
@@ -255,8 +250,8 @@ function Selection:update()
         self.w = 0
         self.h = 0
     end
-    if Input.ctrl.down and Input.add_script.pressed then
-        self:add_script()
+    if Input.ctrl.down and Input.copy_key.pressed then
+        self:copy_key()
     end
 end
 

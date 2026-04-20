@@ -40,6 +40,7 @@ function Res:after()
     for _, o in ipairs(self.q) do
         love.graphics.push()
         love.graphics.translate(-o.x*SCALE, -o.y*SCALE)
+        o.callback()
         love.graphics.pop()
     end
     love.graphics.pop()

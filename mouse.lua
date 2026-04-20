@@ -11,6 +11,8 @@ end
 function Mouse:init()
     self.x = 0
     self.y = 0
+    self.smooth_x = 0
+    self.smooth_y = 0
     self.w = 1
     self.h = 1
     
@@ -59,6 +61,9 @@ function Mouse:update(dt)
     self.x = Res:get_x()+Camera.x
     self.y = Res:get_y()+Camera.y
 
+    self.smooth_x = self.smooth_x+(self.x-self.smooth_x)*0.3*dt
+    self.smooth_y = self.smooth_y+(self.y-self.smooth_y)*0.3*dt
+
     self.dx = self.dx-Res:get_x()
     self.dy = self.dy-Res:get_y()
     
@@ -104,14 +109,13 @@ function Mouse:update(dt)
 end
 
 function Mouse:draw()
-    local x, y = Res:get_x()+Camera.x, Res:get_y()+Camera.y
     if self.tile_mode then
-        love.graphics.rectangle("fill", x-2, y-2, 2, 2)
+        love.graphics.rectangle("fill", self.smooth_x-2, self.smooth_y-2, 2, 2)
     else
-        love.graphics.circle("fill", x, y, 2)
+        love.graphics.circle("fill", self.smooth_x, self.smooth_y, 2)
     end
     love.graphics.setFont(Font)
-    love.graphics.print(self.current_name, x+10, y+10)
+    love.graphics.print(self.current_name, self.smooth_x+10, self.smooth_y+10)
     
     Selection:draw()
     
@@ -119,22 +123,24 @@ function Mouse:draw()
 end
 
 function Mouse:draw_hud()
-    local y = 0
-    love.graphics.setFont(Font)
-
-    love.graphics.print(Round(self.x)..","..Round(self.y), 0, y)
-
-    y = y+Font:getHeight()
-    love.graphics.print(self.tile_x..","..self.tile_y, 0, y)
+    Res:pass(function ()
+        local y = 10
+        love.graphics.setFont(LogFont)
     
-    y = y+Font:getHeight()
-    local keys_str = Selection:get_key_str()
-    love.graphics.print(keys_str, 0, y)
+        love.graphics.print(Round(self.x)..","..Round(self.y), 10, y)
     
-    y = y+Font:getHeight()
-    if Edit.unlocked then
-        love.graphics.print("unlocked", 0, y)
-    end
+        y = y+LogFont:getHeight()
+        love.graphics.print(self.tile_x..","..self.tile_y, 10, y)
+        
+        y = y+LogFont:getHeight()
+        local keys_str = Selection:get_key_str()
+        love.graphics.print(keys_str, 10, y)
+        
+        y = y+LogFont:getHeight()
+        if Edit.unlocked then
+            love.graphics.print("unlocked", 10, y)
+        end
+    end)
 end
 
 function Mouse:set()
