@@ -137,7 +137,9 @@ function Mouse:draw()
             end
         end
         if current then
-            love.graphics.draw(current, (self.tile_x+0.5)*TILE_SIZE, (self.tile_y+0.5)*TILE_SIZE, self.place_dir*math.pi/2, 1, 1, TILE_SIZE/2, TILE_SIZE/2)
+            local x, y = self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE
+            local align = Align({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
+            love.graphics.draw(current, align.x+align.draw_x, align.y+align.draw_y, self.place_dir*math.pi/2)
         end
         ResetColor()
     end
