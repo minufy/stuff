@@ -10,8 +10,8 @@ function NewInput(keys)
     }
 end
 
-local function update_action(action, isDown)
-    local down = isDown()
+local function update_action(action, is_down)
+    local down = is_down(action)
     local up = not down
     action.pressed = down and not action.down
     action.released = up and not action.up
@@ -19,22 +19,26 @@ local function update_action(action, isDown)
     action.up = up
 end
 
+local function key(action)
+    for _, key in ipairs(action.keys) do
+        if love.keyboard.isDown(key) then return true end
+    end
+    return false
+end
+
+local function mouse(action)
+    return love.mouse.isDown(action.keys[1])
+end
+
 function UpdateInputs()
     for _, action in pairs(Input) do
         if action.keys then
-            update_action(action, function()
-                for _, key in ipairs(action.keys) do
-                    if love.keyboard.isDown(key) then return true end
-                end
-                return false
-            end)
+            update_action(action, key)
         end
     end
 
     for i = 1, 3 do
-        update_action(Input.mb[i], function()
-            return love.mouse.isDown(i)
-        end)
+        update_action(Input.mb[i], mouse)
     end
 end
 
@@ -48,7 +52,7 @@ function ResetWheelInput()
     Input.wheel.down = false
 end
 
-Input.mb = {NewInput(), NewInput(), NewInput()}
+Input.mb = {NewInput({1}), NewInput({2}), NewInput({3})}
 Input.wheel = NewInput()
 
 Input.swap_mode = NewInput({"tab"})
