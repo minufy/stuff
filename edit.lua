@@ -61,12 +61,15 @@ function Edit:draw_hud()
     Mouse:draw_hud()
 end
 
-function Edit:add_object(x, y, type, alt)
+function Edit:add_object(x, y, type, dir, alt)
     local data = {
         x = x,
         y = y,
         type = type,
     }
+    if dir ~= 0 then
+        data.dir = dir
+    end
     if alt then
         data.alt = true
     end
@@ -74,12 +77,15 @@ function Edit:add_object(x, y, type, alt)
     Level:reload()
 end
 
-function Edit:add_img_object(x, y, type)
+function Edit:add_img_object(x, y, type, dir)
     local data = {
         x = x,
         y = y,
         type = type,
     }
+    if dir ~= 0 then
+        data.dir = dir
+    end
     Level.level.img_objects[tostring(data):sub(8)] = data
     Level:reload()
 end

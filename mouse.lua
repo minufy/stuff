@@ -22,6 +22,8 @@ function Mouse:init()
     self.dx = 0
     self.dy = 0
     
+    self.place_dir = 0
+
     self.tile_mode = true
     self.current_name = TILE_TYPES[1]
     self.current_i = 1
@@ -35,16 +37,26 @@ function Mouse:camera_control()
         if Input.wheel.down then
             Camera:scale_zoom(1/1.5)
         end
-    else
-        if not Input.cycle.down then
-            if Input.wheel.up then
-                self.current_i = self.current_i+1
-                self:set()
-            end
-            if Input.wheel.down then
-                self.current_i = self.current_i-1
-                self:set()
-            end
+    elseif Input.shift.down then
+        if Input.wheel.up then
+            self.place_dir = self.place_dir+1
+        end
+        if Input.wheel.down then
+            self.place_dir = self.place_dir-1
+        end
+        if self.place_dir < 0 then
+            self.place_dir = 3
+        elseif self.place_dir > 3 then
+            self.place_dir = 0
+        end
+    elseif not Input.cycle.down then
+        if Input.wheel.up then
+            self.current_i = self.current_i+1
+            self:set()
+        end
+        if Input.wheel.down then
+            self.current_i = self.current_i-1
+            self:set()
         end
     end
     if Input.reset_zoom.pressed then
@@ -92,9 +104,9 @@ function Mouse:update(dt)
     else
         if Input.shift.down and MB(1, "pressed") then
             if IMG_KEYS[self.current_name] == nil then
-                Edit:add_object(self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE, self.current_name, Input.alt.down)
+                Edit:add_object(self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE, self.current_name, self.place_dir, Input.alt.down)
             else
-                Edit:add_img_object(self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE, self.current_name)
+                Edit:add_img_object(self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE, self.current_name, self.place_dir)
             end
         end
         Selection:update()
@@ -113,6 +125,21 @@ function Mouse:draw()
         love.graphics.rectangle("fill", self.smooth_x-2, self.smooth_y-2, 2, 2)
     else
         love.graphics.circle("fill", self.smooth_x, self.smooth_y, 2)
+        love.graphics.setColor(1, 1, 1, 0.3)
+        local current = nil
+        if IMG_KEYS[self.current_name] == nil then
+            if Image[self.current_name] ~= nil then
+                current = Image[self.current_name]
+            end
+        else
+            if Image["img."..self.current_name] ~= nil then
+                current = Image["img."..self.current_name]
+            end
+        end
+        if current then
+            love.graphics.draw(current, (self.tile_x+0.5)*TILE_SIZE, (self.tile_y+0.5)*TILE_SIZE, self.place_dir*math.pi/2, 1, 1, TILE_SIZE/2, TILE_SIZE/2)
+        end
+        ResetColor()
     end
     love.graphics.setFont(Font)
     love.graphics.print(self.current_name, self.smooth_x+10, self.smooth_y+10)

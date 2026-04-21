@@ -3,7 +3,7 @@ Image = {}
 local error = love.graphics.newImage("assets/imgs/error.png")
 setmetatable(Image, {
     __index = function(table, key)
-        Log("Image not found: "..key)
+        -- Log("Image not found: "..key)
         return error
     end
 })
