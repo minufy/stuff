@@ -20,8 +20,8 @@ local function update_action(action, is_down)
 end
 
 local function key(action)
-    for _, key in ipairs(action.keys) do
-        if love.keyboard.isDown(key) then return true end
+    for _, k in ipairs(action.keys) do
+        if love.keyboard.isDown(k) then return true end
     end
     return false
 end
