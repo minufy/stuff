@@ -79,8 +79,8 @@ function Mouse:update(dt)
     self.dx = self.dx-Res:get_x()
     self.dy = self.dy-Res:get_y()
     
-    self.tile_x = Round(self.x, TILE_SIZE, 0)
-    self.tile_y = Round(self.y, TILE_SIZE, 0)
+    self.tile_x = math.round(self.x, TILE_SIZE, 0)
+    self.tile_y = math.round(self.y, TILE_SIZE, 0)
 
     if Input.swap_mode.pressed then
         self.tile_mode = not self.tile_mode
@@ -141,14 +141,14 @@ function Mouse:draw()
             local align = Align({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
             love.graphics.draw(current, align.x+align.draw_x, align.y+align.draw_y, self.place_dir*math.pi/2)
         end
-        ResetColor()
+        Color.reset()
     end
     love.graphics.setFont(Font)
     love.graphics.print(self.current_name, self.smooth_x+10, self.smooth_y+10)
     
     Selection:draw()
     
-    ResetColor()
+    Color.reset()
 end
 
 function Mouse:draw_hud()
@@ -156,7 +156,7 @@ function Mouse:draw_hud()
         local y = 10
         love.graphics.setFont(LogFont)
     
-        love.graphics.print(Round(self.x)..","..Round(self.y), 10, y)
+        love.graphics.print(math.round(self.x)..","..math.round(self.y), 10, y)
     
         y = y+LogFont:getHeight()
         love.graphics.print(self.tile_x..","..self.tile_y, 10, y)

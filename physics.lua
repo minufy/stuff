@@ -6,7 +6,7 @@ function Physics.dist(self, group_names, r)
         local group = Game.objects[group_name]
         if group ~= nil then
             for _, other in ipairs(group) do
-                if self ~= other and Dist(self, other) <= r then
+                if self ~= other and math.dist(self, other) <= r then
                     table.insert(found_all, other)
                 end
             end
@@ -66,7 +66,7 @@ function Physics.move_and_col(self, x, y, layers)
     local found_all = {}
     for i, layer in ipairs(layers) do
         local tiles = Game.objects["tiles"][layer]
-        local around = tiles:around(Round(self.x, TILE_SIZE), Round(self.y, TILE_SIZE))
+        local around = tiles:around(math.round(self.x, TILE_SIZE), math.round(self.y, TILE_SIZE))
         local found = Physics.col_group(self, around)
         for _, other in ipairs(found) do
             table.insert(found_all, other)

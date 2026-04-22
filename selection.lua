@@ -70,8 +70,8 @@ function Selection:draw_selection()
         end
         love.graphics.setColor(color, color, color, 0.2)
         if active_tile then
-            local sx, sy = RoundS(self.x, TILE_SIZE), RoundS(self.y, TILE_SIZE)
-            local w, h = RoundS(self.w, TILE_SIZE, 1), RoundS(self.h, TILE_SIZE, 1)
+            local sx, sy = math.round_s(self.x, TILE_SIZE), math.round_s(self.y, TILE_SIZE)
+            local w, h = math.round_s(self.w, TILE_SIZE, 1), math.round_s(self.h, TILE_SIZE, 1)
             love.graphics.rectangle("fill", sx, sy, w, h)
         else
             love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
@@ -160,8 +160,8 @@ function Selection:update_selected_objects()
                 object.w = object.w-Mouse.dx
                 object.h = object.h-Mouse.dy
             elseif Input.space.released then
-                local w = RoundS(object.w, grid)
-                local h = RoundS(object.h, grid)
+                local w = math.round_s(object.w, grid)
+                local h = math.round_s(object.h, grid)
                 Edit:set_object_value("w", w, object.key)
                 Edit:set_object_value("h", h, object.key)
             end
@@ -170,8 +170,8 @@ function Selection:update_selected_objects()
             object.x = object.x-Mouse.dx
             object.y = object.y-Mouse.dy
         elseif MB(1, "released") then
-            local x = RoundS(object.x, grid)
-            local y = RoundS(object.y, grid)
+            local x = math.round_s(object.x, grid)
+            local y = math.round_s(object.y, grid)
             object.x = x
             object.y = y
             if tostring(object) == "img" then
@@ -264,8 +264,8 @@ function Selection:draw()
 end
 
 function Selection:fill_tiles()
-    local sx, sy = Round(self.x, TILE_SIZE), Round(self.y, TILE_SIZE)
-    local w, h = Round(self.w, TILE_SIZE), Round(self.h, TILE_SIZE)
+    local sx, sy = math.round(self.x, TILE_SIZE), math.round(self.y, TILE_SIZE)
+    local w, h = math.round(self.w, TILE_SIZE), math.round(self.h, TILE_SIZE)
     for x = sx, sx+w do
         for y = sy, sy+h do
             if self.tile_mouse_i == 1 then
@@ -281,13 +281,13 @@ function Selection:update_tile()
     for i = 1, 2 do
         if MB(i, "pressed") then
             self.tile_mouse_i = i
-            self.start_x = RoundS(Mouse.x, TILE_SIZE, 0)
-            self.start_y = RoundS(Mouse.y, TILE_SIZE, 0)
+            self.start_x = math.round_s(Mouse.x, TILE_SIZE, 0)
+            self.start_y = math.round_s(Mouse.y, TILE_SIZE, 0)
         end
     
         if MB(i, "down") then
-            self.end_x = RoundS(Mouse.x, TILE_SIZE, 0)
-            self.end_y = RoundS(Mouse.y, TILE_SIZE, 0)
+            self.end_x = math.round_s(Mouse.x, TILE_SIZE, 0)
+            self.end_y = math.round_s(Mouse.y, TILE_SIZE, 0)
         end
     
         self.x, self.y, self.w, self.h = calc_rect(self.start_x, self.end_x, self.start_y, self.end_y)

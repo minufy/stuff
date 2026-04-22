@@ -1,37 +1,41 @@
-Logs = {}
-PrevLog = ""
-LogTime = 240
 local MAX_LOGS = 100
 
-function Log(...)
-    local text = os.date().." : "
-    for i, t in ipairs({...}) do
-        text = text..tostring(t).." "
-    end
-    if #Logs >= MAX_LOGS then
-        table.remove(Logs, 1)
-    end
-    if text ~= PrevLog then
-        table.insert(Logs, {text=text, timer=0})
-        print(text)
-        PrevLog = text
-    end
-end
+Log = {}
+Log.logs = {}
+Log.time = 240
+Log.prev = ""
 
-function DrawLog()
+setmetatable(Log, {
+    __call = function (self, ...)
+        local text = os.date().." : "
+        for i, t in ipairs({...}) do
+            text = text..tostring(t).." "
+        end
+        if #self.logs >= MAX_LOGS then
+            table.remove(self.logs, 1)
+        end
+        if text ~= Log.prev then
+            table.insert(self.logs, {text=text, timer=0})
+            print(text)
+            Log.prev = text
+        end
+    end
+})
+
+function Log:draw()
     love.graphics.setFont(LogFont)
-    for i, log in ipairs(Logs) do
-        love.graphics.setColor(1, 1, 1, 1-log.timer/LogTime)
-        love.graphics.print(log.text, 0, (#Logs-i)*LogFont:getHeight())
+    for i, log in ipairs(self.logs) do
+        love.graphics.setColor(1, 1, 1, 1-log.timer/Log.time)
+        love.graphics.print(log.text, 0, (#self.logs-i)*LogFont:getHeight())
     end
-    ResetColor()
+    Color.reset()
 end
 
-function UpdateLog(dt)
-    for i=#Logs, 1, -1 do
-        Logs[i].timer = Logs[i].timer+dt
-        if Logs[i].timer > LogTime then
-            table.remove(Logs, i)
+function Log:update(dt)
+    for i = #self.logs, 1, -1 do
+        self.logs[i].timer = self.logs[i].timer+dt
+        if self.logs[i].timer > Log.time then
+            table.remove(self.logs, i)
         end
     end
 end

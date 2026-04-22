@@ -6,15 +6,17 @@ function rgba(r, g, b, a)
     return {r/255, g/255, b/255, a}
 end
 
-function Alpha(rgb, a)
+Color = {}
+
+function Color.alpha(rgb, a)
     return {rgb[1], rgb[2], rgb[3], a}
 end
 
-function ResetColor()
+function Color.reset()
     love.graphics.setColor(1, 1, 1, 1)
 end
 
-function Dist(a, b)
+function math.dist(a, b)
     local ax = a.x+a.w/2
     local ay = a.y+a.h/2
     local bx = b.x+b.w/2
@@ -22,7 +24,7 @@ function Dist(a, b)
     return math.sqrt((ax-bx)^2+(ay-by)^2)
 end
 
-function Sign(x)
+function math.sign(x)
     if x > 0 then
         return 1
     elseif x < 0 then
@@ -31,21 +33,21 @@ function Sign(x)
     return 0
 end
 
+function math.round_s(x, r, ofs)
+    return math.round(x, r, ofs)*r
+end
+
+function math.round(x, r, ofs)
+    r = r or 1
+    ofs = ofs or 0.5
+    return math.floor(x/r+ofs)
+end
+
 function AABB(a, b)
     return a.x < b.x+b.w and
            b.x < a.x+a.w and
            a.y < b.y+b.h and
            b.y < a.y+a.h
-end
-
-function RoundS(x, r, ofs)
-    return Round(x, r, ofs)*r
-end
-
-function Round(x, r, ofs)
-    r = r or 1
-    ofs = ofs or 0.5
-    return math.floor(x/r+ofs)
 end
 
 function SinEffect()
