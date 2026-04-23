@@ -5,11 +5,8 @@ function Timer:new(time, timer)
     self.timer = timer or 0
 end
 
-function Timer:update(dt)
+function Timer:run(dt)
     self.timer = self.timer+dt
-end
-
-function Timer:run()
     if self.timer >= self.time then
         self.timer = 0
         return true
