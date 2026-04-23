@@ -43,21 +43,56 @@ function Selection:init()
     self.end_x = self.x
     self.end_y = self.y
     self.selected_objects = {}
+    self.selected_single = false
     self.prev_col = {}
     self.cycle_i = 1
 
     self.tile_mouse_i = 1
+    
+    self.cbs = {
+        select = function (other)
+            self:cb_select(other)
+        end,
+        select_mouse = function (other)
+            self:cb_select_mouse(other)
+        end,
+        select_single = function (other)
+            self:cb_select_single(other)
+        end,
+    }
 end
 
-function Selection.get_col(self)
-    local found = Physics.col(self, get_group_names())
-    for i = #found, 1, -1 do
-        local object = found[i]
-        if object.locked == true and not Edit.unlocked then
-            table.remove(found, i)
+local function filter(other)
+    if other.locked == true and not Edit.unlocked then
+        return true
+    end
+end
+
+function Selection:cb_select(other)
+    if filter(other) then
+        return
+    end
+    table.insert(self.selected_objects, other)
+end
+
+function Selection:cb_select_mouse(other)
+    if filter(other) then
+        return
+    end
+    if #self.selected_objects == 0 then
+        table.insert(self.selected_objects, other)
+    end
+end
+
+function Selection:cb_select_single(other)
+    if Input.ctrl.down then
+        self:ctrl_select(other)
+    else
+        if #self.selected_objects <= 1 then
+            self.selected_objects = {other}
         end
     end
-    return found
+    self.selected_single = true
 end
 
 function Selection:draw_selection()
@@ -81,11 +116,8 @@ end
 
 function Selection:update_selection()
     if MB(1, "pressed") then
-        local col = self.get_col(Mouse)
-        if #col > 0 then
-            self.selected_objects = {col[1]}
-            return
-        end
+        self.selected_objects = {}
+        Physics.col(Mouse, get_group_names(), self.cbs.select_mouse)
     end
 
     if MB(1, "down") then
@@ -96,7 +128,8 @@ function Selection:update_selection()
     self.x, self.y, self.w, self.h = calc_rect(self.start_x, self.end_x, self.start_y, self.end_y)
     
     if MB(1, "released") then
-        self.selected_objects = self:get_col()
+        self.selected_objects = {}
+        Physics.col(self, get_group_names(), self.cbs.select)
     end
 end
 
@@ -136,31 +169,23 @@ end
 function Selection:ctrl_select(col)
     local existed = false
     for i, object in ipairs(self.selected_objects) do
-        if object.key == col[1].key then
+        if object.key == col.key then
             existed = true
             table.remove(self.selected_objects, i)
             break
         end
     end
     if not existed then
-        table.insert(self.selected_objects, col[1])
+        table.insert(self.selected_objects, col)
     end
 end
 
 function Selection:single_selection()
     if MB(1, "pressed") then
-        local col = self.get_col(Mouse)
-        if #col <= 0 then
+        self.selected_single = false
+        Physics.col(Mouse, get_group_names(), self.cbs.select_single)
+        if self.selected_single == false then
             self.selected_objects = {}
-            return
-        end
-        
-        if Input.ctrl.down then
-            self:ctrl_select(col)
-        else
-            if #self.selected_objects <= 1 then
-                self.selected_objects = {col[1]}
-            end
         end
     end
 end

@@ -1,42 +1,35 @@
 Physics = {}
 
-function Physics.dist(self, group_names, r)
-    local found_all = {}
+function Physics.dist(self, group_names, cb, r)
     for _, group_name in ipairs(group_names) do
         local group = Game.objects[group_name]
         if group ~= nil then
             for _, other in ipairs(group) do
                 if self ~= other and math.dist(self, other) <= r then
-                    table.insert(found_all, other)
+                    cb(other)
                 end
             end
         end
     end
-    return found_all
 end
 
-function Physics.col(self, group_names)
+function Physics.col(self, group_names, cb)
     local found_all = {}
     for _, group_name in ipairs(group_names) do
         local group = Game.objects[group_name]
         if group ~= nil then
-            local found = Physics.col_group(self, group)
-            for _, other in ipairs(found) do
-                table.insert(found_all, other)
-            end
+            Physics.col_group(self, group, cb)
         end
     end
     return found_all
 end
 
-function Physics.col_group(self, group_name)
-    local found = {}
-    for _, other in ipairs(group_name) do
+function Physics.col_group(self, group, cb)
+    for _, other in ipairs(group) do
         if self ~= other and AABB(self, other) then
-            table.insert(found, other)
+            cb(other)
         end
     end
-    return found
 end
 
 function Physics.solve_x(self, x, col)
@@ -59,18 +52,13 @@ function Physics.solve_y(self, y, col)
     end
 end
 
-function Physics.move_and_col(self, x, y, layers)
+function Physics.move_and_col(self, x, y, cb, layers)
     self.x = self.x+x
     self.y = self.y+y
     layers = layers or {1}
-    local found_all = {}
     for i, layer in ipairs(layers) do
         local tiles = Game.objects["tiles"][layer]
         local around = tiles:around(math.round(self.x, TILE_SIZE), math.round(self.y, TILE_SIZE))
-        local found = Physics.col_group(self, around)
-        for _, other in ipairs(found) do
-            table.insert(found_all, other)
-        end
+        Physics.col_group(self, around, cb)
     end
-    return found_all
 end

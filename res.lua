@@ -6,14 +6,14 @@ Res.h = WINDOW_H/SCALE
 Res.shift = {x = 0, y = 0}
 Res.q = {}
 
-function Res:pass(callback)
+function Res:pass(cb)
     local x = Camera.x
     local y = Camera.y
     if not Camera.on then
         x = 0
         y = 0
     end
-    table.insert(self.q, {callback = callback, x = x, y = y})
+    table.insert(self.q, {cb = cb, x = x, y = y})
 end
 
 function Res:init()
@@ -40,7 +40,7 @@ function Res:after()
     for _, o in ipairs(self.q) do
         love.graphics.push()
         love.graphics.translate(-o.x*SCALE, -o.y*SCALE)
-        o.callback()
+        o.cb()
         love.graphics.pop()
     end
     love.graphics.pop()
