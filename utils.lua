@@ -73,10 +73,10 @@ function SetType(Object, type)
     end
 end
 
-function Bottom(self, dir)
+function Bottom(self, dir, no_flip)
     self.draw_x, self.draw_y = 0, 0
     dir = dir or 0
-    if dir%2 == 1 then
+    if no_flip == nil and dir%2 == 1 then
         self.w, self.h = self.h, self.w
     end
     if dir == 0 then
@@ -87,12 +87,12 @@ function Bottom(self, dir)
         self.y = self.y+TILE_SIZE/2-self.h/2
     elseif dir == 2 then
         self.draw_y = self.h
-        self.draw_x = TILE_SIZE
-        self.x = self.x-TILE_SIZE/2+self.w/2
+        self.draw_x = self.w
+        self.x = self.x+TILE_SIZE/2-self.w/2
     elseif dir == 3 then
         self.x = self.x+TILE_SIZE-self.w
-        self.draw_y = TILE_SIZE
-        self.y = self.y-TILE_SIZE/2+self.h/2
+        self.draw_y = self.h
+        self.y = self.y+TILE_SIZE/2-self.h/2
     end
     return self
 end

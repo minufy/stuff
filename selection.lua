@@ -100,20 +100,20 @@ function Selection:update_selection()
     end
 end
 
-function Selection:draw_object(x, y, object, i)
+function Selection:draw_object(x, y, w, h, i)
     if Input.cycle.down then
         love.graphics.setFont(Font)
         love.graphics.setColor(1, 0, 1, 0.8)
-        love.graphics.print(tostring(i), x+object.w+2, y)
+        love.graphics.print(tostring(i), x+w+2, y)
         if i == self.cycle_i then
             love.graphics.setLineWidth(1)
             love.graphics.setColor(1, 0, 1, 0.6)
-            love.graphics.rectangle("line", x, y, object.w, object.h)
+            love.graphics.rectangle("line", x, y, w, h)
         end
     else
         love.graphics.setLineWidth(1)
         love.graphics.setColor(0, 1, 1, 0.6)
-        love.graphics.rectangle("line", x, y, object.w, object.h)
+        love.graphics.rectangle("line", x, y, w, h)
     end
 end
 
@@ -122,12 +122,13 @@ function Selection:draw_selected_objects()
         if tostring(object) == "img" then
             local x = Edit:get_img_object_value("x", object.key)
             local y = Edit:get_img_object_value("y", object.key)
-            self:draw_object(x, y, object, i)
+            self:draw_object(x, y, object.w, object.h, i)
         else
             local x = Edit:get_object_value("x", object.key)
             local y = Edit:get_object_value("y", object.key)
-            local align = OBJECT_ALIGN[tostring(object)]({x = x, y = y, w = object.w, h = object.h}, object.dir)
-            self:draw_object(align.x+align.draw_x, align.y+align.draw_y, object, i)
+            local dir = Edit:get_object_value("dir", object.key)
+            local align = OBJECT_ALIGN[tostring(object)]({x = x, y = y, w = object.w, h = object.h}, dir, true)
+            self:draw_object(align.x, align.y, align.w, align.h, i)
         end
     end
 end
