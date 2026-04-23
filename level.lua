@@ -63,6 +63,7 @@ function Level:reload()
     Game:add(Tiles, self.level.tiles)
     for k, o in pairs(self.level.objects) do
         local object = Game:add(OBJECT_TABLE[o.type], o)
+        OBJECT_ALIGN[tostring(o.type)](object, o.dir)
         object.key = k
     end
     for k, o in pairs(self.level.img_objects) do

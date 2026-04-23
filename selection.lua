@@ -126,7 +126,8 @@ function Selection:draw_selected_objects()
         else
             local x = Edit:get_object_value("x", object.key)
             local y = Edit:get_object_value("y", object.key)
-            self:draw_object(x, y, object, i)
+            local align = OBJECT_ALIGN[tostring(object)]({x = x, y = y, w = object.w, h = object.h}, object.dir)
+            self:draw_object(align.x+align.draw_x, align.y+align.draw_y, object, i)
         end
     end
 end
