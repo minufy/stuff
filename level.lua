@@ -34,9 +34,13 @@ function Level:init(level_index)
 end
 
 function Level:load_level()
+    local level = "assets.levels."..self.level_index..".level"
+    if CONSOLE then
+        package.loaded[level] = nil
+    end
     local path = "assets/levels/"..self.level_index.."/level.lua"
     if love.filesystem.getInfo(path) then
-        self.level = require("assets.levels."..self.level_index..".level")
+        self.level = require(level)
         if self.level.tiles == nil then
             self.level.tiles = {}
         end

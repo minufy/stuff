@@ -25,6 +25,9 @@ function Edit:update(dt)
             if Input.save.pressed then
                 self:save()
             end
+            if Input.reload.pressed then
+                Level:load_level()
+            end
         end
         if Input.unlock.pressed then
             self.unlocked = not self.unlocked

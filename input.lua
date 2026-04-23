@@ -71,6 +71,7 @@ Input.cycle = NewInput({"lalt"})
 Input.alt = NewInput({"lalt"})
 Input.space = NewInput({"space"})
 Input.unlock = NewInput({"q"})
+Input.reload = NewInput({"r"})
 
 Input.mb_emu_1 = NewInput({"1"})
 Input.mb_emu_2 = NewInput({"3"})
