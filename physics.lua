@@ -52,9 +52,7 @@ function Physics.solve_y(self, y, col)
     end
 end
 
-function Physics.move_and_col(self, x, y, cb, layers)
-    self.x = self.x+x
-    self.y = self.y+y
+function Physics.col_tiles(self, cb, layers)
     layers = layers or {1}
     for i, layer in ipairs(layers) do
         local tiles = Game.objects["tiles"][layer]
