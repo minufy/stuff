@@ -137,10 +137,16 @@ function Edit:set_object_value(v, k, x, nr)
     end
 end
 
-function Edit:move_img_object(x, y, key)
-    Level.level.img_objects[key].x = x
-    Level.level.img_objects[key].y = y
-    Level:reload()
+function Edit:get_img_object_value(v, k)
+    return Level.level.img_objects[k][v]
+end
+
+function Edit:set_img_object_value(v, k, x, nr)
+    nr = nr or false
+    Level.level.img_objects[k][v] = x
+    if not nr then
+        Level:reload()
+    end
 end
 
 function Edit:undo_push()
