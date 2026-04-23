@@ -103,19 +103,23 @@ end
 function Selection:draw_selected_objects()
     if Input.cycle.down then
         local object = self.selected_objects[self.cycle_i]
+        local x = Edit:get_object_value("x", object.key)
+        local y = Edit:get_object_value("y", object.key)
         love.graphics.setLineWidth(2)
         love.graphics.setColor(1, 0, 1, 0.6)
-        love.graphics.rectangle("line", object.x, object.y, object.w, object.h)
+        love.graphics.rectangle("line", x, y, object.w, object.h)
     end
     for i, object in ipairs(self.selected_objects) do
+        local x = Edit:get_object_value("x", object.key)
+        local y = Edit:get_object_value("y", object.key)
         if Input.cycle.down then
             love.graphics.setFont(Font)
             love.graphics.setColor(1, 0, 1, 0.8)
-            love.graphics.print(tostring(i), object.x+object.w+2, object.y)
+            love.graphics.print(tostring(i), x+object.w+2, y)
         else
             love.graphics.setLineWidth(2)
             love.graphics.setColor(0, 1, 1, 0.6)
-            love.graphics.rectangle("line", object.x, object.y, object.w, object.h)
+            love.graphics.rectangle("line", x, y, object.w, object.h)
         end
     end
 end
@@ -162,23 +166,28 @@ function Selection:update_selected_objects()
             elseif Input.space.released then
                 local w = math.round_s(object.w, grid)
                 local h = math.round_s(object.h, grid)
-                Edit:set_object_value("w", w, object.key)
-                Edit:set_object_value("h", h, object.key)
+                Edit:set_object_value("w", object.key, w)
+                Edit:set_object_value("h", object.key, h)
             end
         end
         if MB(1, "down") then
-            object.x = object.x-Mouse.dx
-            object.y = object.y-Mouse.dy
+            local x = Edit:get_object_value("x", object.key)-Mouse.dx
+            local y = Edit:get_object_value("y", object.key)-Mouse.dy
+            Edit:set_object_value("x", object.key, x, true)
+            Edit:set_object_value("y", object.key, y, true)
+            -- object.x = object.x-Mouse.dx
+            -- object.y = object.y-Mouse.dy
         elseif MB(1, "released") then
-            local x = math.round_s(object.x, grid)
-            local y = math.round_s(object.y, grid)
-            object.x = x
-            object.y = y
+            local x = Edit:get_object_value("x", object.key)
+            local y = Edit:get_object_value("y", object.key)
+            x = math.round_s(x, grid)
+            y = math.round_s(y, grid)
             if tostring(object) == "img" then
                 Edit:move_img_object(x, y, object.key)
             else
-                Edit:set_object_value("x", x, object.key)
-                Edit:set_object_value("y", y, object.key)
+                Level:reload()
+                -- Edit:set_object_value("x", object.key, x)
+                -- Edit:set_object_value("y", object.key, y)
             end
         end
         if Input.delete.pressed then

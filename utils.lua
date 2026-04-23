@@ -74,21 +74,27 @@ function SetType(Object, type)
 end
 
 function Align(self, dir)
+    dir = dir or 0
     local a = {x = self.x, y = self.y, w = self.w, h = self.h, draw_x = 0, draw_y = 0}
     if dir%2 == 1 then
         a.w, a.h = a.h, a.w
     end
     if dir == 0 then
         a.y = a.y+TILE_SIZE-a.h
+        a.x = a.x+TILE_SIZE/2-a.w/2
     elseif dir == 1 then
         a.draw_x = a.w
+        a.y = a.y+TILE_SIZE/2-a.h/2
     elseif dir == 2 then
         a.draw_y = a.h
         a.draw_x = TILE_SIZE
+        a.x = a.x-TILE_SIZE/2+a.w/2
     elseif dir == 3 then
         a.x = a.x+TILE_SIZE-a.w
         a.draw_y = TILE_SIZE
+        a.y = a.y-TILE_SIZE/2+a.h/2
     end
+    a.X, a.Y = a.x+a.draw_x, a.y+a.draw_y
     return a
 end
 
