@@ -65,10 +65,19 @@ end
 function Level:reload()
     Game:reset()
     Game:add(Tiles, self.level.tiles)
+    local inits = {}
     for k, o in pairs(self.level.objects) do
         local object = Game:add(OBJECT_TABLE[o.type], o)
         OBJECT_ALIGN[tostring(o.type)](object, o.dir)
         object.key = k
+        if not Edit.editing and object.init then
+            table.insert(inits, function ()
+                object:init()
+            end)
+        end
+    end
+    for _, f in ipairs(inits) do
+        f()
     end
     for k, o in pairs(self.level.img_objects) do
         local object = Game:add(Img, o.x, o.y, o.type)
