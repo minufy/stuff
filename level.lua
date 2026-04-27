@@ -88,7 +88,8 @@ function Level:reload()
         f()
     end
     for k, o in pairs(self.level.img_objects) do
-        local object = Game:add(Img, o.x, o.y, o.type)
+        local object = Game:add(Img, o)
+        Bottom(object, o.dir)
         object.key = k
     end
 end

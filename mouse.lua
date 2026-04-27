@@ -127,6 +127,7 @@ function Mouse:draw()
         love.graphics.circle("fill", self.smooth_x, self.smooth_y, 2)
         love.graphics.setColor(1, 1, 1, 0.3)
         local current = nil
+        local is_img = false
         if IMG_KEYS[self.current_name] == nil then
             if Image[self.current_name] ~= nil then
                 current = Image[self.current_name]
@@ -134,11 +135,17 @@ function Mouse:draw()
         else
             if Image["img."..self.current_name] ~= nil then
                 current = Image["img."..self.current_name]
+                is_img = true
             end
         end
         if current then
             local x, y = self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE
-            local align = OBJECT_ALIGN[self.current_name]({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
+            local align
+            if is_img then
+                align = Bottom({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
+            else
+                align = OBJECT_ALIGN[self.current_name]({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
+            end
             love.graphics.draw(current, align.x+align.draw_x, align.y+align.draw_y, self.place_dir*math.pi/2)
         end
         Color.reset()
