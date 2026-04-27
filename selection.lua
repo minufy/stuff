@@ -85,6 +85,9 @@ function Selection:cb_select_mouse(other)
 end
 
 function Selection:cb_select_single(other)
+    if filter(other) then
+        return
+    end
     if Input.ctrl.down then
         self:ctrl_select(other)
     else
