@@ -12,10 +12,18 @@ set_type(Tiles, "tiles")
 set_type(Img, "img")
 
 function Level:init(level_index)
+    TILE_QUADS = {}
     for _, type in ipairs(TILE_TYPES) do
         NewImage(type, "tile."..type)
+        TILE_QUADS[type] = {}
+        local w, h = Image["tile."..type]:getDimensions()
+        for y = 0, h-TILE_SIZE, TILE_SIZE do
+            for x = 0, w-TILE_SIZE, TILE_SIZE do
+                table.insert(TILE_QUADS[type], love.graphics.newQuad(x, y, TILE_SIZE, TILE_SIZE, Image["tile."..type]))
+            end
+        end
     end
-    
+
     OBJECT_TABLE = {}
     for _, type in ipairs(OBJECT_TYPES) do
         OBJECT_TABLE[type] = require("objects."..type)
