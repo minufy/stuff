@@ -49,6 +49,7 @@ function Edit:update(dt)
             end
             local prev_level_index = Level.level_index
             Level.level_index = Level.level_index+d_index
+            Mouse:deselect_all()
             if Level:load_level() == false then
                 Level.level_index = prev_level_index
             end
