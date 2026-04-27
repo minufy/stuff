@@ -81,3 +81,11 @@ function Camera:update(dt)
     self.x = self.x+(-self.offset_x+self.target_x-self.x)*self.x_damp*dt
     self.y = self.y+(-self.offset_y+self.target_y-self.y)*self.y_damp*dt
 end
+
+function Camera:check_vis(x, y, w, h)
+    if Edit.editing then
+        return true
+    end
+    x, y = x-Camera.x, y-Camera.y
+    return x > -w and y > -h and x < Res.w and y < Res.h
+end
