@@ -13,3 +13,5 @@ function NewAudio(name)
     Audio[name] = audio
     return audio
 end
+
+Music = {}
