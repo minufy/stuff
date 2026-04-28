@@ -42,18 +42,6 @@ function Edit:update(dt)
                 self:undo_undo()
             end
         end
-        if Input.next_level.pressed or Input.prev_level.pressed then
-            local d_index = -1
-            if Input.next_level.pressed then
-                d_index = 1
-            end
-            local prev_level_index = Level.level_index
-            Level.level_index = Level.level_index+d_index
-            Mouse:deselect_all()
-            if Level:load_level() == false then
-                Level.level_index = prev_level_index
-            end
-        end
     end
 end
 
@@ -95,7 +83,7 @@ function Edit:add_img_object(x, y, type, dir)
 end
 
 function Edit:add_remove_script(key)
-    local path = "assets/levels/"..Level.level_index.."/"..key..".lua"
+    local path = "assets/levels/"..Level.level_name.."/"..key..".lua"
     if love.filesystem.getInfo(path) then
         table.insert(self.remove_scripts, path)
     end
@@ -171,7 +159,7 @@ end
 
 function Edit:save()
     local data = "return "..lume.serialize(Level.level)
-    local path = "assets/levels/"..Level.level_index.."/level.lua"
+    local path = "assets/levels/"..Level.level_name.."/level.lua"
     local file, err = io.open(path, "w")
     if file then
         file:write(data)

@@ -11,7 +11,7 @@ local Img = require("objects.img")
 set_type(Tiles, "tiles")
 set_type(Img, "img")
 
-function Level:init(level_index)
+function Level:init(level_name)
     TILE_QUADS = {}
     for _, type in ipairs(TILE_TYPES) do
         NewImage(type, "tile."..type)
@@ -35,18 +35,18 @@ function Level:init(level_index)
         IMG_KEYS[type] = true
         NewImage(type, "img."..type)
     end
-
-    self.level_index = level_index or 1
+    
     self.level = {}
-    self:load_level()
+    self:load_level(level_name)
 end
 
-function Level:load_level()
-    local level = "assets.levels."..self.level_index..".level"
+function Level:load_level(level_name)
+    self.level_name = level_name
+    local level = "assets.levels."..level_name..".level"
     if CONSOLE then
         package.loaded[level] = nil
     end
-    local path = "assets/levels/"..self.level_index.."/level.lua"
+    local path = "assets/levels/"..level_name.."/level.lua"
     if love.filesystem.getInfo(path) then
         self.level = require(level)
         if self.level.tiles == nil then
