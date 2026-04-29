@@ -6,7 +6,7 @@ function NewInput(keys)
         pressed = false,
         released = false,
         down = false,
-        up = true,
+        up = false,
     }
 end
 
