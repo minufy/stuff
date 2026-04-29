@@ -16,12 +16,14 @@ function Res:pass(cb)
     table.insert(self.q, {cb = cb, x = x, y = y})
 end
 
-function Res:init()
+function Res:init(fix)
     local w, h = love.graphics.getDimensions()
     self:resize(w, h)
-    self.canvas = love.graphics.newCanvas(self.w, self.h, {
-        -- format = "rgba16f" -- lovejs color rounding fix
-    })
+    local settings = {}
+    if fix then
+        settings.format = "rgba16f" -- lovejs color rounding fix
+    end
+    self.canvas = love.graphics.newCanvas(self.w, self.h, settings)
 end
 
 function Res:before()
