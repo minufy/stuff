@@ -6,7 +6,7 @@ function NewInput(keys)
         pressed = false,
         released = false,
         down = false,
-        up = false,
+        up = true,
     }
 end
 
@@ -54,6 +54,7 @@ end
 
 Input.mb = {NewInput({1}), NewInput({2}), NewInput({3})}
 Input.wheel = NewInput()
+Input.wheel.up = false
 
 Input.swap_mode = NewInput({"tab"})
 Input.toggle_editor = NewInput({"`"})
