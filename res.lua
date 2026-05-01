@@ -1,8 +1,6 @@
-SCALE = 1
-
 Res = {}
-Res.w = WINDOW_W/SCALE
-Res.h = WINDOW_H/SCALE
+Res.w = WINDOW_W
+Res.h = WINDOW_H
 Res.shift = {x = 0, y = 0}
 Res.q = {}
 
@@ -34,10 +32,10 @@ function Res:after()
 
     love.graphics.push()
     love.graphics.translate(self.shift.x, self.shift.y)
-    love.graphics.scale(self.zoom/SCALE, self.zoom/SCALE)
+    love.graphics.scale(self.zoom, self.zoom)
     for _, o in ipairs(self.q) do
         love.graphics.push()
-        love.graphics.translate(-o.x*SCALE, -o.y*SCALE)
+        love.graphics.translate(-o.x, -o.y)
         o.cb()
         love.graphics.pop()
     end
