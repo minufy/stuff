@@ -159,24 +159,22 @@ function Mouse:draw()
 end
 
 function Mouse:draw_hud()
-    Res:pass(function ()
-        local y = 10
-        love.graphics.setFont(LogFont)
+    local y = 10
+    love.graphics.setFont(Font)
+
+    love.graphics.print(math.round(self.x)..","..math.round(self.y), 10, y)
+
+    y = y+Font:getHeight()
+    love.graphics.print(self.tile_x..","..self.tile_y, 10, y)
     
-        love.graphics.print(math.round(self.x)..","..math.round(self.y), 10, y)
+    y = y+Font:getHeight()
+    local keys_str = Selection:get_key_str()
+    love.graphics.print(keys_str, 10, y)
     
-        y = y+LogFont:getHeight()
-        love.graphics.print(self.tile_x..","..self.tile_y, 10, y)
-        
-        y = y+LogFont:getHeight()
-        local keys_str = Selection:get_key_str()
-        love.graphics.print(keys_str, 10, y)
-        
-        y = y+LogFont:getHeight()
-        if Edit.unlocked then
-            love.graphics.print("unlocked", 10, y)
-        end
-    end)
+    y = y+Font:getHeight()
+    if Edit.unlocked then
+        love.graphics.print("unlocked", 10, y)
+    end
 end
 
 function Mouse:set()
