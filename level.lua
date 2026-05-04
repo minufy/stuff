@@ -73,7 +73,9 @@ function Level:load_level(level_name)
 end
 
 function Level:reload()
-    Game:reset()
+    if Game.before_reload then
+        Game:before_reload()
+    end
     Game:add(Tiles, self.level.tiles)
     local inits = {}
     for k, o in pairs(self.level.objects) do
@@ -93,5 +95,8 @@ function Level:reload()
         local object = Game:add(Img, o)
         Bottom(object, o.dir)
         object.key = k
+    end
+    if Game.after_reload then
+        Game:after_reload()
     end
 end
