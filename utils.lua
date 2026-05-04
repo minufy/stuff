@@ -97,14 +97,14 @@ function Bottom(self, dir, no_flip)
     return self
 end
 
-function Center(self)
+function Center(self, _, _)
     self.draw_x, self.draw_y = 0, 0
     self.x = self.x+TILE_SIZE/2-self.w/2
     self.y = self.y+TILE_SIZE/2-self.h/2
     return self
 end
 
-function None(self)
+function None(self, _, _)
     self.draw_x, self.draw_y = 0, 0
     return self
 end
