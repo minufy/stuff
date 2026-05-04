@@ -76,10 +76,10 @@ function Level:reload()
     if Game.before_reload then
         Game:before_reload()
     end
-    Game:add(Tiles:new(self.level.tiles))
+    Game:add(Tiles, self.level.tiles)
     local inits = {}
     for k, o in pairs(self.level.objects) do
-        local object = Game:add(OBJECT_TABLE[o.type]:new(o))
+        local object = Game:add(OBJECT_TABLE[o.type], o)
         OBJECT_ALIGN[tostring(o.type)](object, o.dir)
         object.key = k
         if not Edit.editing and object.init then
@@ -92,7 +92,7 @@ function Level:reload()
         f()
     end
     for k, o in pairs(self.level.img_objects) do
-        local object = Game:add(Img:new(o))
+        local object = Game:add(Img, o)
         Bottom(object, o.dir)
         object.key = k
     end

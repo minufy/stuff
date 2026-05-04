@@ -114,11 +114,3 @@ function Copy(a, b)
         b[k] = v
     end
 end
-
-function Mix(a, b)
-    for k, v in pairs(b) do
-        if a[k] == nil and type(v) == "function" then
-            a[k] = v
-        end
-    end
-end
