@@ -19,7 +19,7 @@ function Level:init(level_name)
         local w, h = Image[type]:getDimensions()
         for y = 0, h-TILE_SIZE, TILE_SIZE do
             for x = 0, w-TILE_SIZE, TILE_SIZE do
-                table.insert(TILE_QUADS[type], love.graphics.newQuad(x, y, TILE_SIZE, TILE_SIZE, Image["tile."..type]))
+                table.insert(TILE_QUADS[type], love.graphics.newQuad(x, y, TILE_SIZE, TILE_SIZE, Image[type]))
             end
         end
     end
