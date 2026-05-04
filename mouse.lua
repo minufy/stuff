@@ -124,7 +124,7 @@ function Mouse:update(dt)
     end
 
     self.current_anim = self.current_anim-self.current_anim*0.3*dt
-    local y = (1-self.current_i)*TILE_SIZE*1.5
+    local y = (self.current_i-1)*TILE_SIZE*1.5+Res.h/2
     self.sidebar_y = self.sidebar_y+(y-self.sidebar_y)*0.4*dt
 end
 
@@ -193,17 +193,18 @@ function Mouse:draw_sidebar()
         local x = Res.w-TILE_SIZE*2.5
         local y = self.sidebar_y
         for i, type in ipairs(OBJECT_TYPES) do
-            y = y+1.5*TILE_SIZE
+            y = y-1.5*TILE_SIZE
             love.graphics.draw(Image[type], x, y)
         end
         for i, type in ipairs(IMG_TYPES) do
-            y = y+1.5*TILE_SIZE
+            y = y-1.5*TILE_SIZE
             love.graphics.draw(Image[type], x, y)
         end
         love.graphics.setColor(0, 1, 1, 0.5)
         love.graphics.setLineWidth(2)
         local gap = self.current_anim*TILE_SIZE*0.5
-        love.graphics.rectangle("line", x-gap, TILE_SIZE*1.5-gap, TILE_SIZE+gap*2, TILE_SIZE+gap*2)
+        local cy = Res.h/2-TILE_SIZE*1.5
+        love.graphics.rectangle("line", x-gap, cy-gap, TILE_SIZE+gap*2, TILE_SIZE+gap*2)
         Color.reset()
     end
 end
