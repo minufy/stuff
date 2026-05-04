@@ -27,6 +27,8 @@ function Mouse:init()
     self.tile_mode = true
     self.current_name = TILE_TYPES[1]
     self.current_i = 1
+    self.current_anim = 0
+    self.sidebar_y = 0
 end
 
 function Mouse:camera_control()
@@ -52,10 +54,12 @@ function Mouse:camera_control()
     elseif not Input.cycle.down then
         if Input.wheel.up then
             self.current_i = self.current_i+1
+            self.current_anim = 1
             self:set()
         end
         if Input.wheel.down then
             self.current_i = self.current_i-1
+            self.current_anim = 1
             self:set()
         end
     end
@@ -118,6 +122,10 @@ function Mouse:update(dt)
     if MB(1, "released") or MB(2, "released") or Input.delete.pressed then
         Edit:undo_push()
     end
+
+    self.current_anim = self.current_anim-self.current_anim*0.3*dt
+    local y = (1-self.current_i)*TILE_SIZE*1.5
+    self.sidebar_y = self.sidebar_y+(y-self.sidebar_y)*0.4*dt
 end
 
 function Mouse:draw()
@@ -133,8 +141,8 @@ function Mouse:draw()
                 current = Image[self.current_name]
             end
         else
-            if Image["img."..self.current_name] ~= nil then
-                current = Image["img."..self.current_name]
+            if Image[self.current_name] ~= nil then
+                current = Image[self.current_name]
                 is_img = true
             end
         end
@@ -174,6 +182,29 @@ function Mouse:draw_hud()
     y = y+Font:getHeight()
     if Edit.unlocked then
         love.graphics.print("unlocked", 10, y)
+    end
+
+    self:draw_sidebar()
+end
+
+function Mouse:draw_sidebar()
+    if self.tile_mode then
+    else
+        local x = Res.w-TILE_SIZE*2.5
+        local y = self.sidebar_y
+        for i, type in ipairs(OBJECT_TYPES) do
+            y = y+1.5*TILE_SIZE
+            love.graphics.draw(Image[type], x, y)
+        end
+        for i, type in ipairs(IMG_TYPES) do
+            y = y+1.5*TILE_SIZE
+            love.graphics.draw(Image[type], x, y)
+        end
+        love.graphics.setColor(0, 1, 1, 0.5)
+        love.graphics.setLineWidth(2)
+        local gap = self.current_anim*TILE_SIZE*0.5
+        love.graphics.rectangle("line", x-gap, TILE_SIZE*1.5-gap, TILE_SIZE+gap*2, TILE_SIZE+gap*2)
+        Color.reset()
     end
 end
 

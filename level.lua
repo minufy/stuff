@@ -14,9 +14,9 @@ set_type(Img, "img")
 function Level:init(level_name)
     TILE_QUADS = {}
     for _, type in ipairs(TILE_TYPES) do
-        NewImage(type, "tile."..type)
+        NewImage(type)
         TILE_QUADS[type] = {}
-        local w, h = Image["tile."..type]:getDimensions()
+        local w, h = Image[type]:getDimensions()
         for y = 0, h-TILE_SIZE, TILE_SIZE do
             for x = 0, w-TILE_SIZE, TILE_SIZE do
                 table.insert(TILE_QUADS[type], love.graphics.newQuad(x, y, TILE_SIZE, TILE_SIZE, Image["tile."..type]))
@@ -33,7 +33,7 @@ function Level:init(level_name)
     IMG_KEYS = {}
     for _, type in ipairs(IMG_TYPES) do
         IMG_KEYS[type] = true
-        NewImage(type, "img."..type)
+        NewImage(type)
     end
     
     self.level = {}
