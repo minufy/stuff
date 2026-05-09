@@ -11,12 +11,12 @@ function Res:pass(cb)
 end
 
 function Res:init(settings, shader)
-    local w, h = love.graphics.getDimensions()
-    self:resize(w, h)
-    self.canvas = love.graphics.newCanvas(self.w, self.h, settings)
     self.w = WINDOW_W
     self.h = WINDOW_H
     self.shift = {x = 0, y = 0}
+    local w, h = love.graphics.getDimensions()
+    self:resize(w, h)
+    self.canvas = love.graphics.newCanvas(self.w, self.h, settings)
     self.q = {}
     self.shader = shader
 end
