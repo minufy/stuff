@@ -1,8 +1,4 @@
 Res = {}
-Res.w = WINDOW_W
-Res.h = WINDOW_H
-Res.shift = {x = 0, y = 0}
-Res.q = {}
 
 function Res:pass(cb)
     local x = Camera.x
@@ -14,13 +10,21 @@ function Res:pass(cb)
     table.insert(self.q, {cb = cb, x = x, y = y})
 end
 
-function Res:init(settings)
+function Res:init(settings, shader)
     local w, h = love.graphics.getDimensions()
     self:resize(w, h)
     self.canvas = love.graphics.newCanvas(self.w, self.h, settings)
+    self.w = WINDOW_W
+    self.h = WINDOW_H
+    self.shift = {x = 0, y = 0}
+    self.q = {}
+    self.shader = shader
 end
 
 function Res:before()
+    if self.shader then
+        love.graphics.setShader(self.shader)
+    end
     love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
     self.q = {}
@@ -40,6 +44,10 @@ function Res:after()
         love.graphics.pop()
     end
     love.graphics.pop()
+
+    if self.shader then
+        love.graphics.setShader()
+    end
 end
 
 function Res:get_x()
