@@ -80,7 +80,7 @@ function Bottom(self, dir, no_flip)
         self.w, self.h = self.h, self.w
     end
     if dir == 0 then
-        self.y = self.y+TILE_SIZE-self.h
+        self.y = self.y+TILE_SIZE*math.ceil(self.h/TILE_SIZE)-self.h
         self.x = self.x+TILE_SIZE/2-self.w/2
     elseif dir == 1 then
         self.draw_x = self.w
@@ -90,7 +90,7 @@ function Bottom(self, dir, no_flip)
         self.draw_x = self.w
         self.x = self.x+TILE_SIZE/2-self.w/2
     elseif dir == 3 then
-        self.x = self.x+TILE_SIZE-self.w
+        self.x = self.x+TILE_SIZE*math.ceil(self.w/TILE_SIZE)-self.w
         self.draw_y = self.h
         self.y = self.y+TILE_SIZE/2-self.h/2
     end
