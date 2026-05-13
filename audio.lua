@@ -5,11 +5,11 @@ function NewAudio(name)
     local audio = {
         source = love.audio.newSource("assets/audio/"..name..".ogg", "static"),
     }
-    function audio:play(v, p)
-        v = v or 1
-        p = p or 1
-        self.source:setVolume(v*Audio.global_volume/10)
-        self.source:setPitch(p)
+    function audio:play(volume, pitch)
+        volume = volume or 1
+        pitch = pitch or 1
+        self.source:setVolume(volume*Audio.global_volume/10)
+        self.source:setPitch(pitch)
         self.source:stop()
         self.source:play()
     end

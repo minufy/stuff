@@ -117,26 +117,26 @@ function Edit:add_tile(x, y, type)
     Level:reload()
 end
 
-function Edit:get_object_value(v, k)
-    return Level.level.objects[k][v]
+function Edit:get_object_value(value, key)
+    return Level.level.objects[key][value]
 end
 
-function Edit:set_object_value(v, k, x, nr)
-    nr = nr or false
-    Level.level.objects[k][v] = x
-    if not nr then
+function Edit:set_object_value(value, key, x, no_reload)
+    no_reload = no_reload or false
+    Level.level.objects[key][value] = x
+    if not no_reload then
         Level:reload()
     end
 end
 
-function Edit:get_img_object_value(v, k)
-    return Level.level.img_objects[k][v]
+function Edit:get_img_object_value(value, key)
+    return Level.level.img_objects[key][value]
 end
 
-function Edit:set_img_object_value(v, k, x, nr)
-    nr = nr or false
-    Level.level.img_objects[k][v] = x
-    if not nr then
+function Edit:set_img_object_value(value, key, x, no_reload)
+    no_reload = no_reload or false
+    Level.level.img_objects[key][value] = x
+    if not no_reload then
         Level:reload()
     end
 end

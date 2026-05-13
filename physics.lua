@@ -1,11 +1,11 @@
 Physics = {}
 
-function Physics.dist(self, group_names, cb, r)
+function Physics.dist(self, group_names, cb, radius)
     for _, group_name in ipairs(group_names) do
         local group = Game.objects[group_name]
         if group ~= nil then
             for _, other in ipairs(group) do
-                if self ~= other and math.dist(self, other) <= r then
+                if self ~= other and math.dist(self, other) <= radius then
                     cb(other)
                 end
             end

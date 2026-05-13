@@ -19,6 +19,8 @@ Camera.on = false
 
 Camera.zoom = 1
 
+local shake_thresh = 0.1
+
 function Camera:scale_zoom(scale)
     local mouse_x = Res:get_x()
     local mouse_y = Res:get_y()
@@ -58,7 +60,7 @@ end
 
 function Camera:start()
     love.graphics.push()
-    if self.shake_duration > 0.1 then
+    if self.shake_duration > shake_thresh then
         love.graphics.translate(self.shake_x, self.shake_y)
     end
     love.graphics.scale(self.zoom, self.zoom)
@@ -72,7 +74,7 @@ function Camera:stop()
 end
 
 function Camera:update(dt)
-    if self.shake_duration > 0.1 then
+    if self.shake_duration > shake_thresh then
         self.shake_x = math.random(-self.shake_duration, self.shake_duration)
         self.shake_y = math.random(-self.shake_duration, self.shake_duration)
     end
