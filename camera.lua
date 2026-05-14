@@ -88,6 +88,6 @@ function Camera:check_vis(x, y, w, h)
     if Edit.editing then
         return true
     end
-    x, y = x-Camera.x, y-Camera.y
+    x, y = x-self.x+self.shake_x, y-self.y+self.shake_y
     return x > -w and y > -h and x < Res.w and y < Res.h
 end
