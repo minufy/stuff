@@ -114,3 +114,11 @@ function Copy(a, b)
         b[k] = v
     end
 end
+
+function ToDict(t)
+    local d = {}
+    for i, v in ipairs(t) do
+        d[v] = true
+    end
+    return d
+end
