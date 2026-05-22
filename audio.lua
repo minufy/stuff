@@ -26,6 +26,10 @@ function Audio:change_global_volume(x)
     end
 end
 
+function Audio:set_global_volume(x)
+    Audio.global_volume = x
+end
+
 Music = {}
 Music.volume = 0.5
 function Music:update()
