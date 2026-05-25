@@ -50,8 +50,9 @@ function AABB(a, b)
            b.y < a.y+a.h
 end
 
-function SinEffect()
-    return math.sin(love.timer.getTime()*4)
+function SinEffect(t)
+    t = t or 4
+    return math.sin(love.timer.getTime()*t)
 end
 
 function EaseOut(x)
