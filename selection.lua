@@ -158,7 +158,9 @@ function Selection:draw_selected_objects()
         if tostring(object) == "img" then
             local x = Edit:get_img_object_value("x", object.key)
             local y = Edit:get_img_object_value("y", object.key)
-            self:draw_object(x, y, object.w, object.h, i)
+            local dir = Edit:get_img_object_value("dir", object.key)
+            local align = OBJECT_ALIGN[tostring(object)]({x = x, y = y, w = object.w, h = object.h}, dir, true)
+            self:draw_object(align.x, align.y, align.w, align.h, i)
         else
             local x = Edit:get_object_value("x", object.key)
             local y = Edit:get_object_value("y", object.key)
