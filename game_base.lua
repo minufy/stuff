@@ -19,7 +19,12 @@ function GameBase:lookup_object(key)
     return self.lookup[key]
 end
 
-setmetatable(GameBase, {
+function GameBase:base_reload()
+    self.lookup = {}
+    self.group_names = {}
+end
+
+return setmetatable(GameBase, {
     __call = function (self, ...)
         for i, other in ipairs({...}) do
             for k, v in pairs(self) do
@@ -30,5 +35,3 @@ setmetatable(GameBase, {
         end
     end
 })
-
-return GameBase
