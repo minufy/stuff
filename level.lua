@@ -45,11 +45,13 @@ function Level:load_level(level_name)
         self.level_name = level_name
     end
     local level = "assets.levels."..self.level_name..".level"
+    local level_path = "assets/levels/"..self.level_name.."/level.lua"
+    local data = "assets.levels."..self.level_name..".data"
+    local data_path = "assets/levels/"..self.level_name.."/data.lua"
     if CONSOLE then
         package.loaded[level] = nil
     end
-    local path = "assets/levels/"..self.level_name.."/level.lua"
-    if love.filesystem.getInfo(path) then
+    if love.filesystem.getInfo(level_path) then
         self.level = require(level)
         if self.level.tiles == nil then
             self.level.tiles = {}
@@ -60,14 +62,21 @@ function Level:load_level(level_name)
         if self.level.img_objects == nil then
             self.level.img_objects = {}
         end
+
         Edit.undo = {}
         if CONSOLE then
             Edit:undo_push()
         end
+
+        self.data = {}
+        if love.filesystem.getInfo(data_path) then
+            self.data = require(data)
+        end
+
         self:reload()
         return true
     else
-        Log("not found: "..path)
+        Log("not found: "..level_path)
         return false
     end
 end
@@ -81,7 +90,8 @@ function Level:reload()
     for k, o in pairs(self.level.objects) do
         local object = Game:add(OBJECT_TABLE[o.type], o)
         OBJECT_ALIGN[tostring(o.type)](object, o.dir)
-        object.key = k
+        Game:register_object(object, k)
+        
         if not Edit.editing and object.init then
             table.insert(inits, function ()
                 object:init()
@@ -94,7 +104,7 @@ function Level:reload()
     for k, o in pairs(self.level.img_objects) do
         local object = Game:add(Img, o)
         OBJECT_ALIGN.img(object, o.dir)
-        object.key = k
+        Game:register_object(object, k)
     end
     if Game.after_reload then
         Game:after_reload()
