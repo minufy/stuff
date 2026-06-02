@@ -76,40 +76,40 @@ end
 
 Align = {}
 
-function Align:Bottom(o, dir, no_flip)
-    o.draw_x, o.draw_y = 0, 0
+function Align.Bottom(self, dir, no_flip)
+    self.draw_x, self.draw_y = 0, 0
     dir = dir or 0
     if no_flip == nil and dir%2 == 1 then
-        o.w, o.h = o.h, o.w
+        self.w, self.h = self.h, self.w
     end
     if dir == 0 then
-        o.y = o.y+TILE_SIZE*math.ceil(o.h/TILE_SIZE)-o.h
-        o.x = o.x+TILE_SIZE/2-o.w/2
+        self.y = self.y+TILE_SIZE*math.ceil(self.h/TILE_SIZE)-self.h
+        self.x = self.x+TILE_SIZE/2-self.w/2
     elseif dir == 1 then
-        o.draw_x = o.w
-        o.y = o.y+TILE_SIZE/2-o.h/2
+        self.draw_x = self.w
+        self.y = self.y+TILE_SIZE/2-self.h/2
     elseif dir == 2 then
-        o.draw_y = o.h
-        o.draw_x = o.w
-        o.x = o.x+TILE_SIZE/2-o.w/2
+        self.draw_y = self.h
+        self.draw_x = self.w
+        self.x = self.x+TILE_SIZE/2-self.w/2
     elseif dir == 3 then
-        o.x = o.x+TILE_SIZE*math.ceil(o.w/TILE_SIZE)-o.w
-        o.draw_y = o.h
-        o.y = o.y+TILE_SIZE/2-o.h/2
+        self.x = self.x+TILE_SIZE*math.ceil(self.w/TILE_SIZE)-self.w
+        self.draw_y = self.h
+        self.y = self.y+TILE_SIZE/2-self.h/2
     end
-    return o
+    return self
 end
 
-function Align:Center(o, _, _)
-    o.draw_x, o.draw_y = 0, 0
-    o.x = o.x+TILE_SIZE/2-o.w/2
-    o.y = o.y+TILE_SIZE/2-o.h/2
-    return o
+function Align.Center(self, _, _)
+    self.draw_x, self.draw_y = 0, 0
+    self.x = self.x+TILE_SIZE/2-self.w/2
+    self.y = self.y+TILE_SIZE/2-self.h/2
+    return self
 end
 
-function Align:None(o, _, _)
-    o.draw_x, o.draw_y = 0, 0
-    return o
+function Align.None(self, _, _)
+    self.draw_x, self.draw_y = 0, 0
+    return self
 end
 
 function Copy(a, b)
