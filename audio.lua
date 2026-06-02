@@ -31,6 +31,7 @@ function Audio:set_global_volume(x)
 end
 
 Music = {}
+Music.source = nil
 Music.volume = 0.5
 function Music:update()
     if self.source then

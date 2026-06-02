@@ -150,7 +150,7 @@ function Mouse:draw()
             local x, y = self.tile_x*TILE_SIZE, self.tile_y*TILE_SIZE
             local align
             if is_img then
-                align = Bottom({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
+                align = Align:Bottom({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
             else
                 align = OBJECT_ALIGN[self.current_name]({x = x, y = y, w = current:getWidth(), h = current:getHeight()}, self.place_dir)
             end
