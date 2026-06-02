@@ -15,7 +15,7 @@ setmetatable(Log, {
             table.remove(self.logs, 1)
         end
         if text ~= Log.prev then
-            table.insert(self.logs, {text=text, timer=0})
+            table.insert(self.logs, {text = text, timer = 0})
             print(text)
             Log.prev = text
         end
