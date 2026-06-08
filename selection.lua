@@ -197,13 +197,41 @@ end
 
 function Selection:update_selected_objects()
     for i, object in ipairs(self.selected_objects) do
-        if tostring(object) ~= "img" then
+        if object.scaleable then
             if Input.space.down then
-                object.w = object.w-Mouse.dx
-                object.h = object.h-Mouse.dy
+                local x, y, w, h = Edit:get_object_value("x", object.key), Edit:get_object_value("y", object.key), Edit:get_object_value("w", object.key), Edit:get_object_value("h", object.key)
+                local cx, cy = x+w/2, y+h/2
+                if Mouse.x > cx and Mouse.y > cy then
+                    w = w-Mouse.dx
+                    h = h-Mouse.dy
+                elseif Mouse.x < cx and Mouse.y > cy then
+                    x = x-Mouse.dx
+                    w = w+Mouse.dx
+                    h = h-Mouse.dy
+                elseif Mouse.x > cx and Mouse.y < cy then
+                    y = y-Mouse.dy
+                    w = w-Mouse.dx
+                    h = h+Mouse.dy
+                elseif Mouse.x < cx and Mouse.y < cy then
+                    x = x-Mouse.dx
+                    y = y-Mouse.dy
+                    w = w+Mouse.dx
+                    h = h+Mouse.dy
+                end
+                object.x, object.y, object.w, object.h = x, y, w, h
+                Edit:set_object_value("x", object.key, x)
+                Edit:set_object_value("y", object.key, y)
+                Edit:set_object_value("w", object.key, w)
+                Edit:set_object_value("h", object.key, h)
             elseif Input.space.released then
-                local w = math.round_s(object.w, GRID_SIZE)
-                local h = math.round_s(object.h, GRID_SIZE)
+                local x, y, w, h = Edit:get_object_value("x", object.key), Edit:get_object_value("y", object.key), Edit:get_object_value("w", object.key), Edit:get_object_value("h", object.key)
+                x = math.round_s(x, GRID_SIZE)
+                y = math.round_s(y, GRID_SIZE)
+                w = math.round_s(w, GRID_SIZE)
+                h = math.round_s(h, GRID_SIZE)
+                object.x, object.y, object.w, object.h = x, y, w, h
+                Edit:set_object_value("x", object.key, x)
+                Edit:set_object_value("y", object.key, y)
                 Edit:set_object_value("w", object.key, w)
                 Edit:set_object_value("h", object.key, h)
             end
