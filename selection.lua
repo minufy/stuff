@@ -197,7 +197,7 @@ end
 
 function Selection:update_selected_objects()
     for i, object in ipairs(self.selected_objects) do
-        if object.scaleable then
+        if object.scalable then
             if Input.space.down then
                 local x, y, w, h = Edit:get_object_value("x", object.key), Edit:get_object_value("y", object.key), Edit:get_object_value("w", object.key), Edit:get_object_value("h", object.key)
                 local cx, cy = x+w/2, y+h/2
