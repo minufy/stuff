@@ -1,20 +1,33 @@
 Audio = {}
 Audio.global_volume = 10
 
-function NewAudio(name)
-    local audio = {
-        source = love.audio.newSource("assets/audio/"..name..".ogg", "static"),
-    }
-    function audio:play(volume, pitch)
-        volume = volume or 1
-        pitch = pitch or 1
-        self.source:setVolume(volume*Audio.global_volume/10)
-        self.source:setPitch(pitch)
-        self.source:stop()
-        self.source:play()
+Source = Object:extend()
+
+function Source:new(name, volume, type, cb)
+    type = type or "static"
+    self.source = love.audio.newSource("assets/audio/"..name..".ogg", type)
+    cb(self.source)
+end
+
+function Source:play(pitch)
+    pitch = pitch or 1
+    self.source:setVolume(self.volume*Audio.global_volume/10)
+    self.source:setPitch(pitch)
+    self.source:stop()
+    self.source:play()
+end
+
+function Source:update()
+    self.source:setVolume(self.volume*Audio.global_volume/10)
+end
+
+function Audio:add(name, type, update)
+    local source = Source(name, type)
+    if update then
+        table.insert(self.sources, source)
     end
-    Audio[name] = audio
-    return audio
+    Audio[name] = source
+    return source
 end
 
 function Audio:change_global_volume(x)
@@ -30,11 +43,8 @@ function Audio:set_global_volume(x)
     Audio.global_volume = x
 end
 
-Music = {}
-Music.source = nil
-Music.volume = 0.5
-function Music:update()
-    if self.source then
-        self.source:setVolume(Audio.global_volume/10*self.volume)
+function Audio:update(dt)
+    for i, source in ipairs(self.source) do
+        source:update()
     end
 end
