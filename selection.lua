@@ -200,6 +200,8 @@ function Selection:update_selected_objects()
         if object.scalable then
             if Input.space.down then
                 local x, y, w, h = Edit:get_object_value("x", object.key), Edit:get_object_value("y", object.key), Edit:get_object_value("w", object.key), Edit:get_object_value("h", object.key)
+                if w == nil then w = object.w end
+                if h == nil then h = object.h end
                 local cx, cy = x+w/2, y+h/2
                 if Mouse.x > cx and Mouse.y > cy then
                     w = w-Mouse.dx
