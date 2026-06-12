@@ -30,10 +30,12 @@ local function mouse(action)
     return love.mouse.isDown(action.keys[1])
 end
 
-function UpdateInputs()
+function Input:update()
     for _, action in pairs(Input) do
-        if action.keys then
-            update_action(action, key)
+        if type(action) == "table" then
+            if action.keys then
+                update_action(action, key)
+            end
         end
     end
 
@@ -42,12 +44,12 @@ function UpdateInputs()
     end
 end
 
-function love.wheelmoved(dx, dy)
+function Input:wheelmoved(dx, dy)
     Input.wheel.up = dy > 0
     Input.wheel.down = dy < 0
 end
 
-function ResetWheelInput()
+function Input:reset_wheel()
     Input.wheel.up = false
     Input.wheel.down = false
 end

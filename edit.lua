@@ -53,6 +53,18 @@ function Edit:draw_hud()
     Mouse:draw_hud()
 end
 
+function Edit:next_key(collection, prefix)
+    Level.level.next_ids = Level.level.next_ids or {}
+    local id = Level.level.next_ids[prefix] or 1
+    local key = prefix.."_"..id
+    while collection[key] ~= nil do
+        id = id+1
+        key = prefix.."_"..id
+    end
+    Level.level.next_ids[prefix] = id+1
+    return key
+end
+
 function Edit:add_object(x, y, type, dir, alt)
     local data = {
         x = x,
@@ -65,7 +77,7 @@ function Edit:add_object(x, y, type, dir, alt)
     if alt then
         data.alt = true
     end
-    Level.level.objects[tostring(data):sub(8)] = data
+    Level.level.objects[self:next_key(Level.level.objects, "object")] = data
     Level:reload()
 end
 
@@ -78,7 +90,7 @@ function Edit:add_img_object(x, y, type, dir)
     if dir ~= 0 then
         data.dir = dir
     end
-    Level.level.img_objects[tostring(data):sub(8)] = data
+    Level.level.img_objects[self:next_key(Level.level.img_objects, "img")] = data
     Level:reload()
 end
 

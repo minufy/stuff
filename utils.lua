@@ -68,10 +68,6 @@ function UpdateTargetFPS()
     TargetFPS = (flags.refreshrate > 0) and flags.refreshrate or 60
 end
 
-function love.displaychanged()
-    UpdateTargetFPS()
-end
-
 function SetType(Object, type)
     function Object:__tostring()
         return type

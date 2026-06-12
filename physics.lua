@@ -14,14 +14,12 @@ function Physics.dist(self, group_names, cb, radius)
 end
 
 function Physics.col(self, group_names, cb)
-    local found_all = {}
     for _, group_name in ipairs(group_names) do
         local group = Game.objects[group_name]
         if group ~= nil then
             Physics.col_group(self, group, cb)
         end
     end
-    return found_all
 end
 
 function Physics.col_group(self, group, cb)
