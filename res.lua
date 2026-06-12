@@ -69,7 +69,3 @@ function Res:resize(w, h)
         self.shift.y = 0
     end
 end
-
-function love.resize(w, h)
-    Res:resize(w, h)
-end
