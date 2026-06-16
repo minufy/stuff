@@ -26,7 +26,8 @@ end
 
 Outline = {}
 
-function Outline:init()
+function Outline:init(offset)
+    self.offset = offset or 1
     self.shader = love.graphics.newShader("assets/shader/outline.glsl")
     self.canvas = love.graphics.newCanvas(Res.w, Res.h)
 end
@@ -41,8 +42,8 @@ function Outline:stop()
     love.graphics.setCanvas(Res.canvas)
     
     love.graphics.setShader(self.shader)
-    for x = -1, 1 do
-        for y = -1, 1 do
+    for x = -self.offset, self.offset do
+        for y = -self.offset, self.offset do
             if not (x == 0 and y == 0) then
                 love.graphics.draw(self.canvas, x, y)
             end
