@@ -59,6 +59,17 @@ function EaseOut(x)
     return 1-(1-x)^2
 end
 
+function EaseOutElastic(x)
+    local c4 = (2*math.pi)/3
+    if x == 0 then
+        return 0
+    elseif x == 1 then
+        return 1
+    else
+        return math.pow(2, -10*x)*math.sin((x*10-0.75)*c4)+1
+    end
+end
+
 function RandomPitch()
     return math.random(8, 12)/10
 end
