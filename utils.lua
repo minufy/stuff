@@ -74,11 +74,6 @@ function RandomPitch()
     return math.random(8, 12)/10
 end
 
-function UpdateTargetFPS()
-    local _, _, flags = love.window.getMode()
-    TargetFPS = (flags.refreshrate > 0) and flags.refreshrate or 60
-end
-
 function SetType(Object, type)
     function Object:__tostring()
         return type
