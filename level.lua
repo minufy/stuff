@@ -90,7 +90,6 @@ function Level:reload()
     for k, o in pairs(self.level.objects) do
         local object = Game:add(OBJECT_TABLE[o.type], o)
         OBJECT_ALIGN[tostring(o.type)](object, o.dir)
-        Game:register_object(object, k)
         
         if not Edit.editing and object.init then
             table.insert(inits, function ()

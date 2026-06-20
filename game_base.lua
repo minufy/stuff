@@ -10,20 +10,6 @@ function GameBase:add(Object, ...)
     return o
 end
 
-function GameBase:register_object(object, key)
-    self.lookup[key] = object
-    object.key = key
-end
-
-function GameBase:lookup_object(key)
-    return self.lookup[key]
-end
-
-function GameBase:base_reload()
-    self.lookup = {}
-    self.group_names = {}
-end
-
 return setmetatable(GameBase, {
     __call = function (self, ...)
         for i, other in ipairs({...}) do
