@@ -1,19 +1,13 @@
 Level = {}
 
-local function set_type(Object, type)
-    function Object:__tostring()
-        return type
-    end
-end
+local Tiles
+local Img
 
-local Tiles = require("objects.tiles")
-local Img = require("objects.img")
-set_type(Tiles, "tiles")
-set_type(Img, "img")
-
-function Level:init(level_name)
+function Level:init()
     TILE_QUADS = {}
+    local tiles_exist = false
     for _, type in ipairs(TILE_TYPES) do
+        tiles_exist = true
         NewImage(type)
         TILE_QUADS[type] = {}
         local w, h = Image[type]:getDimensions()
@@ -23,24 +17,32 @@ function Level:init(level_name)
             end
         end
     end
+    if tiles_exist then
+        Tiles = require("objects.tiles")
+        SetType(Tiles, "tiles")
+    end
 
-    OBJECT_TABLE = {}
+    OBJECTS = {}
     for _, type in ipairs(OBJECT_TYPES) do
-        OBJECT_TABLE[type] = require("objects."..type)
-        set_type(OBJECT_TABLE[type], type)
+        OBJECTS[type] = require("objects."..type)
+        SetType(OBJECTS[type], type)
     end
 
     IMG_KEYS = {}
+    local imgs_exist = false
     for _, type in ipairs(IMG_TYPES) do
+        imgs_exist = true
         IMG_KEYS[type] = true
         NewImage(type)
     end
-    
-    self.level = {}
-    self:load_level(level_name)
+    if imgs_exist then
+        Img = require("objects.img")
+        SetType(Img, "img")
+    end
 end
 
 function Level:load_level(level_name)
+    self.level = {}
     if level_name then
         self.level_name = level_name
     end
@@ -88,7 +90,7 @@ function Level:reload()
     Game:add(Tiles, self.level.tiles)
     local inits = {}
     for k, o in pairs(self.level.objects) do
-        local object = Game:add(OBJECT_TABLE[o.type], o)
+        local object = Game:add(OBJECTS[o.type], o)
         OBJECT_ALIGN[tostring(o.type)](object, o.dir)
         
         if not Edit.editing and object.init then
