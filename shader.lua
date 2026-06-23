@@ -30,16 +30,18 @@ function Outline:init(offset)
     self.offset = offset or 1
     self.shader = love.graphics.newShader("assets/shader/outline.glsl")
     self.canvas = love.graphics.newCanvas(Res.w, Res.h)
+    self.prev_canvas = nil
 end
 
 function Outline:start()
+    self.prev_canvas = love.graphics.getCanvas()
     love.graphics.setCanvas(self.canvas)
     love.graphics.clear()
 end
 
 function Outline:stop()
     love.graphics.setBlendMode("alpha", "premultiplied")
-    love.graphics.setCanvas(Res.canvas)
+    love.graphics.setCanvas(self.prev_canvas)
     
     love.graphics.setShader(self.shader)
     for x = -self.offset, self.offset do
