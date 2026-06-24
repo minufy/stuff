@@ -92,7 +92,8 @@ function Level:reload()
     for k, o in pairs(self.level.objects) do
         local object = Game:add(OBJECTS[o.type], o)
         OBJECT_ALIGN[tostring(o.type)](object, o.dir)
-        
+        object.key = k
+
         if not Edit.editing and object.init then
             table.insert(inits, function ()
                 object:init()
@@ -105,6 +106,7 @@ function Level:reload()
     for k, o in pairs(self.level.img_objects) do
         local object = Game:add(Img, o)
         OBJECT_ALIGN.img(object, o.dir)
+        object.key = k
     end
     if Game.after_reload then
         Game:after_reload()
