@@ -105,7 +105,6 @@ function Level:reload()
     for k, o in pairs(self.level.img_objects) do
         local object = Game:add(Img, o)
         OBJECT_ALIGN.img(object, o.dir)
-        Game:register_object(object, k)
     end
     if Game.after_reload then
         Game:after_reload()
