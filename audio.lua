@@ -31,6 +31,7 @@ function NewAudio(name, volume, type, cb)
     if type == "stream" then
         table.insert(Audio.sources, source)
     end
+    Audio[name] = source
     return source
 end
 
